@@ -63,13 +63,54 @@ Output:
       },
       "flattenedPrerequisites": ["CMPUT 174", "CMPUT 274", "MATH 100", "MATH 114", "MATH 117", "MATH 134", "MATH 144", "MATH 154"],
       "flattenedCorequisites": ["CMPUT 175", "CMPUT 275", "CMPUT 272", "MATH 102", "MATH 125", "MATH 127", "STAT 151", "STAT 161", "STAT 181", "STAT 235", "STAT 265", "SCI 151", "MATH 181"]
-    }`
+    }`;
 
-async function descriptionParser(
-  description: string,
-): Promise<any> {
+interface FinalCourseDetails {
+  department: string;
+  courseCode: string;
+  title: string;
+  units: {
+    credits: number;
+    feeIndex: number;
+    term: string;
+  };
+  requirements: RequirementsData;
+  flattenedPrerequisites: string[];
+  flattenedCorequisites: string[];
+  url: string | null;
+  updatedAt: string; // ISO String date
+}
 
-  const prompt = `${BASEPROMPT}\n${description}`;  
+interface RequirementsData {
+  prerequisites?: RequirementCondition;
+  corequisites?: RequirementCondition;
+  notes?: string | null;
+}
+
+interface RequirementCondition {
+  // Operator might need more values if you use 'STANDALONE', 'WILDCARD', etc.
+  operator: 'AND' | 'OR' | 'STANDALONE' | 'WILDCARD' | string;
+  conditions?: RequirementCondition[];
+  courses?: string[];
+  pattern?: string;
+  description?: string;
+}
+
+interface RawCourse {
+  department: string;
+  code: string;
+  title: string;
+  units: {
+    credits: number;
+    feeIndex: number;
+    term: string;
+  };
+  description: string;
+  url: string;
+}
+
+async function descriptionParser(description: string): Promise<any> {
+  const prompt = `${BASEPROMPT}\n${description}`;
   const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
   });
@@ -83,7 +124,8 @@ async function descriptionParser(
       },
       {
         role: 'system',
-        content: 'You are a helpful assistant that extracts structured course information from university course catalog descriptions.',
+        content:
+          'You are a helpful assistant that extracts structured course information from university course catalog descriptions.',
       },
     ],
     temperature: 0,
@@ -98,9 +140,9 @@ async function descriptionParser(
       console.error('Null result');
       return null;
     }
-    
+
     const parsedResult = JSON.parse(result);
-    
+
     if (typeof parsedResult === 'object' && parsedResult !== null) {
       return parsedResult;
     } else {
@@ -113,12 +155,74 @@ async function descriptionParser(
   }
 }
 
+export async function processCourse(rawCourse: RawCourse): Promise<any> {
+  const courseToBeParsed = rawCourse;
+  const parsed = await descriptionParser(courseToBeParsed.description);
+  if (parsed === null) {
+    return null;
+  }
+
+  const finalDetails = {
+    department: courseToBeParsed.department,
+    courseCode: courseToBeParsed.code,
+    title: courseToBeParsed.title,
+    units: courseToBeParsed.units,
+    requirements: parsed.requirements,
+    flattenedPrerequisites: parsed.flattenedPrerequisites || [],
+    flattenedCorequisites: parsed.flattenedCorequisites || [],
+    url: courseToBeParsed.url || null,
+    updatedAt: new Date().toISOString(),
+  } as FinalCourseDetails;
+  return finalDetails;
+}
+
+export async function processDepartment(
+  rawCourses: RawCourse[]
+): Promise<FinalCourseDetails[]> {
+  let processedCourses: FinalCourseDetails[] = [];
+
+  for (const course of rawCourses) {
+    const parsed = await processCourse(course);
+    if (parsed === null) {
+      return [];
+    }
+    processedCourses.push(parsed);
+  }
+  return processedCourses;
+}
+
 async function main() {
-    const test_description = `The first of two courses on algorithm design and analysis, with emphasis on fundamentals of searching, sorting, and graph algorithms. Examples include divide and conquer, dynamic programming, greedy methods, backtracking, and local search methods, together with analysis techniques to estimate program efficiency. Prerequisites: CMPUT 175 or 275, and CMPUT 272; and one of MATH 100, 114, 117, 134, 144, or 154.`
-    const result = await descriptionParser(test_description);
-    console.log(result);
-    console.log(result?.requirements.prerequisites)
-    console.log(result?.requirements.corequisites);
+  const test_course: RawCourse[] = [
+    {
+      department: 'CMPUT',
+      code: '204',
+      title: 'Algorithms I',
+      units: {
+        credits: 3,
+        feeIndex: 6,
+        term: 'Fall',
+      },
+      description:
+        'The first of two courses on algorithm design and analysis, with emphasis on fundamentals of searching, sorting, and graph algorithms. Examples include divide and conquer, dynamic programming, greedy methods, backtracking, and local search methods, together with analysis techniques to estimate program efficiency. Prerequisites: CMPUT 175 or 275, and CMPUT 272; and one of MATH 100, 114, 117, 134, 144, or 154.',
+      url: '/catalogue/course/cmput/204',
+    },
+    {
+      department: 'CMPUT',
+      code: '272',
+      title: 'Formal Systems and Logic in Computing Science',
+      units: {
+        credits: 3,
+        feeIndex: 6,
+        term: 'Fall',
+      },
+      description:
+        'An introduction to the tools of set theory, logic, and induction, and their use in the practice of reasoning about algorithms and programs. Basic set theory; the notion of a function; counting; propositional and predicate logic and their proof systems; inductive definitions and proofs by induction; program specification and correctness. Prerequisites: CMPUT 101, 174, 175, 274, SCI 100, or ENCMP 100.',
+      url: '/catalogue/course/cmput/272',
+    },
+  ];
+  const result = await processDepartment(test_course);
+
+  console.log(result);
 }
 
 main();
