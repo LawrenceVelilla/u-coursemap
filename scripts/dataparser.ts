@@ -1,6 +1,7 @@
 import { OpenAI } from 'openai';
 import path from 'path';
 import * as dotenv from 'dotenv';
+import { RawCourse, FinalCourseDetails } from '../db/types';
 
 dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 
@@ -14,6 +15,7 @@ Your task is to analyze the provided text and extract:
 Output Rules:
 - The output MUST be a single JSON object. Do not include any text before or after the JSON object.
 - Your main objective is to extract the requirements and notes from the course description.
+- Exract 5-6 keywords from the course description and include them in the "keywords" field.
 - Prerequisites and corequisites can be complex and may involve multiple courses, conditions, or combinations of courses. Watch out for indicators like "Prerequisites:", "Corequsites:" which indicate the start of these reflective requirements.
     - If "Prequisites:" is not mentioned/found, assume there are no prerequisites.
     - If "Corequisites:" is not mentioned/found, assume there are no corequisites
@@ -42,6 +44,7 @@ Input:
     This course introduces the fundamental statistical, mathematical, and computational concepts in analyzing data. The goal for this introductory course is to provide a solid foundation in the mathematics of machine learning, in preparation for more advanced machine learning concepts. The course focuses on univariate models, to simplify some of the mathematics and emphasize some of the underlying concepts in machine learning, including: how should one think about data, how can data be summarized, how models can be estimated from data, what sound estimation principles look like, how generalization is achieved, and how to evaluate the performance of learned models. Prerequisites: CMPUT 174 or 274; one of MATH 100, 114, 117, 134, 144, or 154. Corequisites: CMPUT 175 or 275; CMPUT 272; MATH 102, 125 or 127; one of STAT 151, 161, 181, 235, 265, SCI 151, or MATH 181.
 Output:
     {
+      "keywords": ["Machine Learning", "Data Analysis", "Univariate Models", "Estimation", "Generalization"], 
       "requirements": {
         "prerequisites": {
           "operator": "AND",
@@ -65,52 +68,9 @@ Output:
       "flattenedCorequisites": ["CMPUT 175", "CMPUT 275", "CMPUT 272", "MATH 102", "MATH 125", "MATH 127", "STAT 151", "STAT 161", "STAT 181", "STAT 235", "STAT 265", "SCI 151", "MATH 181"]
     }`;
 
-interface FinalCourseDetails {
-  department: string;
-  courseCode: string;
-  title: string;
-  units: {
-    credits: number;
-    feeIndex: number;
-    term: string;
-  };
-  requirements: RequirementsData;
-  flattenedPrerequisites: string[];
-  flattenedCorequisites: string[];
-  url: string | null;
-  updatedAt: string; // ISO String date
-}
-
-interface RequirementsData {
-  prerequisites?: RequirementCondition;
-  corequisites?: RequirementCondition;
-  notes?: string | null;
-}
-
-interface RequirementCondition {
-  // Operator might need more values if you use 'STANDALONE', 'WILDCARD', etc.
-  operator: 'AND' | 'OR' | 'STANDALONE' | 'WILDCARD' | string;
-  conditions?: RequirementCondition[];
-  courses?: string[];
-  pattern?: string;
-  description?: string;
-}
-
-interface RawCourse {
-  department: string;
-  code: string;
-  title: string;
-  units: {
-    credits: number;
-    feeIndex: number;
-    term: string;
-  };
-  description: string;
-  url: string;
-}
 
 async function descriptionParser(description: string): Promise<any> {
-  const prompt = `${BASEPROMPT}\n${description}`;
+  const prompt = description
   const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
   });
@@ -124,8 +84,7 @@ async function descriptionParser(description: string): Promise<any> {
       },
       {
         role: 'system',
-        content:
-          'You are a helpful assistant that extracts structured course information from university course catalog descriptions.',
+        content: BASEPROMPT
       },
     ],
     temperature: 0,
@@ -164,8 +123,9 @@ export async function processCourse(rawCourse: RawCourse): Promise<any> {
 
   const finalDetails = {
     department: courseToBeParsed.department,
-    courseCode: courseToBeParsed.code,
+    courseCode: courseToBeParsed.courseCode,
     title: courseToBeParsed.title,
+    keywords: parsed.keywords,
     units: courseToBeParsed.units,
     requirements: parsed.requirements,
     flattenedPrerequisites: parsed.flattenedPrerequisites || [],
@@ -191,38 +151,38 @@ export async function processDepartment(
   return processedCourses;
 }
 
-async function main() {
-  const test_course: RawCourse[] = [
-    {
-      department: 'CMPUT',
-      code: '204',
-      title: 'Algorithms I',
-      units: {
-        credits: 3,
-        feeIndex: 6,
-        term: 'Fall',
-      },
-      description:
-        'The first of two courses on algorithm design and analysis, with emphasis on fundamentals of searching, sorting, and graph algorithms. Examples include divide and conquer, dynamic programming, greedy methods, backtracking, and local search methods, together with analysis techniques to estimate program efficiency. Prerequisites: CMPUT 175 or 275, and CMPUT 272; and one of MATH 100, 114, 117, 134, 144, or 154.',
-      url: '/catalogue/course/cmput/204',
-    },
-    {
-      department: 'CMPUT',
-      code: '272',
-      title: 'Formal Systems and Logic in Computing Science',
-      units: {
-        credits: 3,
-        feeIndex: 6,
-        term: 'Fall',
-      },
-      description:
-        'An introduction to the tools of set theory, logic, and induction, and their use in the practice of reasoning about algorithms and programs. Basic set theory; the notion of a function; counting; propositional and predicate logic and their proof systems; inductive definitions and proofs by induction; program specification and correctness. Prerequisites: CMPUT 101, 174, 175, 274, SCI 100, or ENCMP 100.',
-      url: '/catalogue/course/cmput/272',
-    },
-  ];
-  const result = await processDepartment(test_course);
+// async function main() {
+//   const test_course: RawCourse[] = [
+//     {
+//       department: 'CMPUT',
+//       code: '204',
+//       title: 'Algorithms I',
+//       units: {
+//         credits: 3,
+//         feeIndex: 6,
+//         term: 'Fall',
+//       },
+//       description:
+//         'The first of two courses on algorithm design and analysis, with emphasis on fundamentals of searching, sorting, and graph algorithms. Examples include divide and conquer, dynamic programming, greedy methods, backtracking, and local search methods, together with analysis techniques to estimate program efficiency. Prerequisites: CMPUT 175 or 275, and CMPUT 272; and one of MATH 100, 114, 117, 134, 144, or 154.',
+//       url: '/catalogue/course/cmput/204',
+//     },
+//     {
+//       department: 'CMPUT',
+//       code: '272',
+//       title: 'Formal Systems and Logic in Computing Science',
+//       units: {
+//         credits: 3,
+//         feeIndex: 6,
+//         term: 'Fall',
+//       },
+//       description:
+//         'An introduction to the tools of set theory, logic, and induction, and their use in the practice of reasoning about algorithms and programs. Basic set theory; the notion of a function; counting; propositional and predicate logic and their proof systems; inductive definitions and proofs by induction; program specification and correctness. Prerequisites: CMPUT 101, 174, 175, 274, SCI 100, or ENCMP 100.',
+//       url: '/catalogue/course/cmput/272',
+//     },
+//   ];
+//   const result = await processDepartment(test_course);
 
-  console.log(result);
-}
+//   console.log(result);
+// }
 
-main();
+// main();
