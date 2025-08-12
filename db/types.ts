@@ -1,7 +1,7 @@
 export interface RequirementsData {
   prerequisites?: RequirementCondition;
   corequisites?: RequirementCondition;
-  notes?: string | null;
+  notes?: string;
 }
 
 export interface RequirementCondition {

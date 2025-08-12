@@ -17,7 +17,7 @@ export async function scrapeCoursePage(url) {
     const $ = cheerio.load(response.data);
 
     const courses = [];
-    $('.course.first').each((_, element) => {
+    $('.course').each((_, element) => {
       const $course = $(element);
 
       const headerText = $course.find('h2 a').text().trim();
@@ -73,13 +73,3 @@ export async function scrapeCoursePage(url) {
   }
 }
 
-async function main() {
-  const courses = await scrapeCoursePage(
-    'https://apps.ualberta.ca/catalogue/course/cmput'
-  );
-  fs.writeFileSync('courses.json', JSON.stringify(courses, null, 2));
-  console.log(`Scraped ${courses.length} courses`);
-  console.log(courses);
-}
-
-main();
