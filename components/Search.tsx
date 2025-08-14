@@ -1,9 +1,9 @@
 "use client";
-
-import { getCourseDetails } from "@/actions/courses";
-import { FinalCourseDetails } from "@/db/types";
 import useCourse from "@/hooks/useCourse";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
 
 export default function Search() {
   const [searchInput, setSearchInput] = useState("");
@@ -21,21 +21,21 @@ export default function Search() {
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        value={searchInput}
-        onChange={(e) => setSearchInput(e.target.value)}
-        onKeyDown={handleKeyDown}
-        placeholder="Enter course code"
-        className="border p-2 rounded"
-      />
-      <button
-        onClick={handleSearch}
-        className="ml-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-      >
-        Search
-      </button>
+    <div className="flex flex-col items-center space-y-4">
+      <div className="flex w-full max-w-lg items-center space-x-2">
+        <Input
+          type="text"
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder="Enter course code (e.g., CMPUT 174)"
+          className="flex-1"
+        />
+        <Button onClick={handleSearch} className="min-w-[80px]">
+          Search
+        </Button>
+      </div>
+      
       {isLoading && <div>Loading...</div>}
       {error && <div>Error: {error.message}</div>}
       {data && (
