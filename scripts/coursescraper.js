@@ -11,6 +11,10 @@ import fs from 'fs';
 
 // TODO: Add rate limiting
 
+// The .course class used to identify each course block is causing 
+// issues with the scraper as UofA has a duplicate course class for the same course
+// IF the course is set to be updated during the date given
+
 export async function scrapeCoursePage(url) {
   try {
     const response = await axios.get(url);

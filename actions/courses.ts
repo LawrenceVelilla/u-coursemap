@@ -6,12 +6,13 @@ export async function getCourseDetails(
 ): Promise<any> {
   try {
     const parts = code.toUpperCase().trim().split(" ");
-    if (parts.length !== 2) {
-      throw new Error("Invalid course code format. Use format: DEPT ###");
+    if (parts.length < 2) {
+      throw new Error("Invalid course code format. Use format: DEPT ### or DEPT PART ###");
     }
 
-    const department = parts[0];
-    
+    // Everything before the number is considered the department
+    const department = parts.slice(0, -1).join(" ");
+
     const course = await prisma.course.findUnique({
       where: {
         department_courseCode_unique: {
@@ -20,9 +21,11 @@ export async function getCourseDetails(
         },
       },
     });
+    
     if (!course) {
       throw new Error("Course not found");
     }
+  
     await prisma.$disconnect();
     return course;
     
@@ -30,14 +33,4 @@ export async function getCourseDetails(
     console.error("Error fetching course details:", error);
     throw new Error("Failed to fetch course details");
   }
-  
 }
-
-// async function test() {
-//   const course = await getCourseDetails("CMPUT 200");
-//   console.log(`Course Details: ${course.department}\n ${course.courseCode}\n ${course.flattenedPrerequisites}`);
-// }
-
-// test()
-//   .then(() => console.log("Test completed successfully"))
-//   .catch((error) => console.error("Test failed:", error));      
