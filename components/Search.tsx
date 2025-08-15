@@ -1,17 +1,20 @@
 "use client";
-import useCourse from "@/hooks/useCourse";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+interface SearchProps {
+  onCourseFound?: (courseCode: string) => void
+}
 
-export default function Search() {
+export default function Search({ onCourseFound }: SearchProps) {
   const [searchInput, setSearchInput] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
-  const { data, error, isLoading } = useCourse(searchQuery);
 
   const handleSearch = () => {
-    setSearchQuery(searchInput.trim().toUpperCase());
+    const courseCode = searchInput.trim().toUpperCase();
+    if (courseCode && onCourseFound) {
+      onCourseFound(courseCode);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -35,16 +38,6 @@ export default function Search() {
           Search
         </Button>
       </div>
-      
-      {isLoading && <div>Loading...</div>}
-      {error && <div>Error: {error.message}</div>}
-      {data && (
-        <div>
-          <h2>{data.courseCode}</h2>
-          <p>{data.title}</p>
-          <p>Prerequisites: {data.flattenedPrerequisites.join(", ")}</p>
-        </div>
-      )}
     </div>
   );
 }
