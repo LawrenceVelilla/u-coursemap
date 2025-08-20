@@ -48,8 +48,8 @@ export function CourseDisplay({ courseCode }: CourseDisplayProps) {
     return <CourseNotFound courseCode={courseCode} />
   }
 
-  let term = data.units?.term.split(',')[0];
-  let termDisp = (() => {
+  const term = data.units?.term.split(',')[0];
+  const termDisp = (() => {
     switch (term) {
       case 'FALL':
         return 'Fall';
