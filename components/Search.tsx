@@ -34,7 +34,7 @@ export default function Search({ onCourseFound }: SearchProps) {
           placeholder="Enter course code (e.g., CMPUT 174)"
           className="flex-1"
         />
-        <Button onClick={handleSearch} className="min-w-[80px]">
+        <Button onClick={handleSearch} className="min-w-[80px] hover:bg-secondary hover:text-primary transition-colors duration-150">
           Search
         </Button>
       </div>

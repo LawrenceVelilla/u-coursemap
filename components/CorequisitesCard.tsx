@@ -12,7 +12,7 @@ export function CorequisitesCard({ corequisites }: CorequisitesCardProps) {
   
   if (!hasCorequisites) {
     return (
-      <Card className="h-fit">
+      <Card className="h-fit frosted-glass">
         <CardHeader>
           <CardTitle className="text-lg">Corequisites</CardTitle>
         </CardHeader>
@@ -24,7 +24,7 @@ export function CorequisitesCard({ corequisites }: CorequisitesCardProps) {
   }
 
   return (
-    <Card className="h-fit">
+    <Card className="h-fit frosted-glass">
       <CardContent className="p-0">
         <RequisiteTree 
           requirements={corequisites}

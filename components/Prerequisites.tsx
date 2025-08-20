@@ -12,7 +12,7 @@ export function PrerequisitesCard({ prerequisites }: PrerequisitesCardProps) {
   
   if (!hasPrerequisites) {
     return (
-      <Card className="h-fit">
+      <Card className="h-fit frosted-glass">
         <CardHeader>
           <CardTitle className="text-xl">Prerequisites</CardTitle>
         </CardHeader>
@@ -24,7 +24,7 @@ export function PrerequisitesCard({ prerequisites }: PrerequisitesCardProps) {
   }
 
   return (
-    <Card className="h-fit">
+    <Card className="h-fit frosted-glass">
       <CardContent className="p-0">
         <RequisiteTree 
           requirements={prerequisites}

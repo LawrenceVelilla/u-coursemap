@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
 
 interface CourseInfoCardProps {
   courseCode: string
@@ -16,7 +17,7 @@ export function CourseInfoCard({
   keywords 
 }: CourseInfoCardProps) {
   return (
-    <Card className="h-fit">
+    <Card className="max-w-4xl mx-auto frosted-glass">
       <CardHeader>
         <CardTitle className="text-2xl text-primary font-bold">
           {courseCode}
@@ -24,20 +25,23 @@ export function CourseInfoCard({
         <p className="text-lg text-primary">{title}</p>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <span className="font-medium">Credits:</span> {credits || 'Not specified'}
-          </div>
-          <div>
-            <span className="font-medium">Available during {term || 'Not specified'}</span>
-          </div>
-        </div>
-        
         {keywords && keywords.length > 0 && (
           <div>
-            <p className="text-sm text-gray-600">{keywords.join(", ")}</p>
+            <p className="text-sm text-gray-600">
+              {keywords.map((keyword) => (
+                <Badge className='mr-2 rounded-2xl
+                hover:bg-secondary hover:text-primary transition-colors duration-150'
+                 key={keyword}>{keyword}</Badge>
+              ))}
+            </p>
           </div>
         )}
+        <div className="flex flex-col gap-2 text-sm">          
+            <span className="font-medium">Credits: {credits || 'Not specified'}</span>
+            <span className="font-medium">Available: {term || 'Not specified'}</span>          
+        </div>
+        
+        
       </CardContent>
     </Card>
   )

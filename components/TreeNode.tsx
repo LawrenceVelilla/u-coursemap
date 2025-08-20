@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
-import { ChevronDown, ChevronRight } from 'lucide-react'
+import { ChevronRight } from 'lucide-react'
 import { TreeNode } from '@/lib/requisite-tree'
 import Link from 'next/link'
 
@@ -26,7 +26,7 @@ export function TreeNodeComponent({ node, depth }: TreeNodeComponentProps) {
   if (node.type === 'course') {
     return (
       <div className={cn("py-1 flex items-center gap-2", indentStyle)}>
-        <Link href={``} className="inline-block p-1 rounded-md transition-colors hover:bg-[#606c5d] hover:text-[#fefae0] duration-200 ">
+        <Link href={``} className="inline-block p-1 rounded-md transition-colors hover:bg-[#606c5d] hover:text-[#fefae0] duration-150">
           {node.label}
         </Link>
       </div>
@@ -50,16 +50,15 @@ export function TreeNodeComponent({ node, depth }: TreeNodeComponentProps) {
         >
           <span onClick={() => setIsExpanded(!isExpanded)} className="flex items-center">
           {hasChildren ? (
-            isExpanded ? (
-              <ChevronDown className="w-4 h-4" />
-            ) : (
-              <ChevronRight className="w-4 h-4" />
-            )
+            <ChevronRight className={cn(
+              "w-4 h-4 transition-transform duration-150",
+              isExpanded && "rotate-90"
+            )} />
           ) : (
             <div className="w-4 h-4" />
           )}
-          <span className="font-semibold italic text-lg ml-2 px-2 py-1 rounded-xl text-secondary
-            bg-primary hover:bg-secondary hover:text-primary transition-colors duration-200 "
+          <span className="font-semibold italic text-lg ml-2 px-2 rounded-lg text-secondary
+            bg-primary hover:bg-secondary hover:text-primary transition-colors duration-150"
           >
             {getOperatorDisplay(node.label)}
           </span>

@@ -6,7 +6,7 @@ interface NeededByCardProps {
 
 export function NeededByCard({ courseCode }: NeededByCardProps) {
   return (
-    <Card className="h-fit">
+    <Card className="h-fit frosted-glass">
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
           Needed By
