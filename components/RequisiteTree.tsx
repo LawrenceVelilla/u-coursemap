@@ -5,7 +5,7 @@ import { RequirementCondition } from '@/db/types'
 import { transformToTree } from '@/lib/requisite-tree'
 import { cn } from '@/lib/utils'
 
-interface PrerequisiteTreeProps {
+interface RequisiteTreeProps {
   requirements: RequirementCondition
   title?: string
   className?: string
@@ -15,7 +15,7 @@ export function RequisiteTree({
   requirements, 
   title = "Prerequisites",
   className 
-}: PrerequisiteTreeProps) {
+}: RequisiteTreeProps) {
   const treeNodes = transformToTree(requirements)
 
   if (treeNodes.length === 0) return null
@@ -33,4 +33,3 @@ export function RequisiteTree({
     </div>
   )
 }
-

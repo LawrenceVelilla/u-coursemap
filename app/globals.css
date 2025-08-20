@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import url("https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Caveat:wght@400..700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap");
 
 @custom-variant dark (&:is(.dark *));
 
@@ -43,6 +44,10 @@
 }
 
 :root {
+  --font-afacad: "Afacad", sans-serif;
+  --font-caveat: "Libre Baskerville", serif;
+  --font-libre: "Caveat", cursive;
+  
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);

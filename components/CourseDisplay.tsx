@@ -1,10 +1,13 @@
 'use client'
 
 import useCourse from '@/hooks/useCourse'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { CourseNotFound } from './ui/coursenotfound'
 import { CourseLoadingSkeleton } from './ui/courseskeleton'
-import { RequisiteTree } from './RequisiteTree'
+import { CourseInfoCard } from './CourseInfo'
+import { PrerequisitesCard } from './Prerequisites'
+import { CorequisitesCard } from './CorequisitesCard'
+import { NeededByCard } from './NeededBy'
 
 interface CourseDisplayProps {
   courseCode: string
@@ -60,46 +63,30 @@ export function CourseDisplay({ courseCode }: CourseDisplayProps) {
   })();
 
   return (
-    <Card className="w-full max-w-4xl mx-auto">
-      <CardHeader>
-        <CardTitle className="text-2xl text-primary font-bold">
-          {data.courseCode}
-        </CardTitle>
-        <p className="text-lg text-primary">{data.title}</p>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <div>
-          <h3 className="text-lg font-semibold mb-2">Course Information</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <span className="font-medium">Credits:</span> {data.units?.credits || 'Not specified'}
-            </div>
-            <div>             
-              <span className="font-medium">Available during {termDisp}</span> 
-            </div>
-          </div>
+    <div className="w-full max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Main course info */}
+        <div className="lg:col-span-2">
+          <CourseInfoCard
+            courseCode={data.courseCode}
+            title={data.title}
+            credits={data.units?.credits?.toString()}
+            term={termDisp}
+            keywords={data.keywords}
+          />
         </div>
-          
-        {data.keywords && data.keywords.length > 0 && (
-          <div>
-            <p>{data.keywords.join(", ")}</p>
-          </div>
-        )}
-
-        {data.requirements?.prerequisites && (
-          <RequisiteTree
-            requirements={data.requirements.prerequisites}
-            title="Prerequisites"
-          />
-        )}
-      
-        {data.requirements?.corequisites && (
-          <RequisiteTree 
-            requirements={data.requirements.corequisites}
-            title="Corequisites"
-          />
-        )}
-      </CardContent>
-    </Card>
+        
+        {/* Prerequisites card */}
+        <PrerequisitesCard prerequisites={data.requirements?.prerequisites} />
+        
+        {/* Corequisites card */}
+        <CorequisitesCard corequisites={data.requirements?.corequisites} />
+        
+        {/* Needed by card - spans full width */}
+        <div className="lg:col-span-2">
+          <NeededByCard courseCode={data.courseCode} />
+        </div>
+      </div>
+    </div>
   )
 }

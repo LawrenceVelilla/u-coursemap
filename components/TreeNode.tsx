@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { ChevronDown, ChevronRight } from 'lucide-react'
 import { TreeNode } from '@/lib/requisite-tree'
+import Link from 'next/link'
 
 interface TreeNodeComponentProps {
   node: TreeNode
@@ -12,8 +13,8 @@ export function TreeNodeComponent({ node, depth }: TreeNodeComponentProps) {
   const [isExpanded, setIsExpanded] = useState(true)
   const hasChildren = node.children && node.children.length > 0
 
-  const indentStyle = depth > 0 ? `ml-${Math.min(depth * 4, 16)}` : ''
-  
+  const indentStyle = depth > 0 ? `ml-${Math.min(depth * 12, 64)}px` : ''
+
   const getOperatorDisplay = (operator: string) => {
     switch (operator.toUpperCase()) {
       case 'OR': return 'One of:'
@@ -25,9 +26,9 @@ export function TreeNodeComponent({ node, depth }: TreeNodeComponentProps) {
   if (node.type === 'course') {
     return (
       <div className={cn("py-1 flex items-center gap-2", indentStyle)}>
-        <span className="font-medium text-primary hover:text-blue-800 cursor-pointer">
+        <Link href={``} className="inline-block p-1 rounded-md transition-colors hover:bg-[#606c5d] hover:text-[#fefae0] duration-200 ">
           {node.label}
-        </span>
+        </Link>
       </div>
     )
   }
@@ -44,9 +45,10 @@ export function TreeNodeComponent({ node, depth }: TreeNodeComponentProps) {
     return (
       <div className={cn("py-1", indentStyle)}>
         <div 
-          className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 rounded px-2 py-1"
-          onClick={() => setIsExpanded(!isExpanded)}
+          className="flex items-center gap-2 cursor-pointer
+          p-1 rounded-md "
         >
+          <span onClick={() => setIsExpanded(!isExpanded)} className="flex items-center">
           {hasChildren ? (
             isExpanded ? (
               <ChevronDown className="w-4 h-4" />
@@ -56,11 +58,11 @@ export function TreeNodeComponent({ node, depth }: TreeNodeComponentProps) {
           ) : (
             <div className="w-4 h-4" />
           )}
-          <span className={cn(
-            "font-semibold text-sm px-2 py-1 rounded",
-            node.label === 'AND' ? "text-green-800" : "text-orange-800"
-          )}>
+          <span className="font-semibold italic text-lg ml-2 px-2 py-1 rounded-xl text-secondary
+            bg-primary hover:bg-secondary hover:text-primary transition-colors duration-200 "
+          >
             {getOperatorDisplay(node.label)}
+          </span>
           </span>
         </div>
         
