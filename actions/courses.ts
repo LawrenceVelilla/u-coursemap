@@ -26,7 +26,6 @@ export async function getCourseDetails(
       throw new Error("Course not found");
     }
   
-    await prisma.$disconnect();
     return course;
     
   } catch (error) {
