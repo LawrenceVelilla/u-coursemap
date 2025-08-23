@@ -33,3 +33,54 @@ export async function getCourseDetails(
     throw new Error("Failed to fetch course details");
   }
 }
+
+export async function getCoursesNeeding(
+  courseCode: string
+): Promise<{
+  asPrerequisite: any[];
+  asCorequisite: any[];
+}> {
+  try {
+    const normalizedCourseCode = courseCode.toUpperCase().trim();
+    
+    // Query courses that have this course as a prerequisite
+    const prerequisiteCourses = await prisma.course.findMany({
+      where: {
+        flattenedPrerequisites: {
+          has: normalizedCourseCode
+        }
+      },
+      select: {
+        courseCode: true,
+        title: true,
+        department: true,
+        keywords: true,
+        units: true
+      }
+    });
+
+    // Query courses that have this course as a corequisite
+    const corequisiteCourses = await prisma.course.findMany({
+      where: {
+        flattenedCorequisites: {
+          has: normalizedCourseCode
+        }
+      },
+      select: {
+        courseCode: true,
+        title: true,
+        department: true,
+        keywords: true,
+        units: true
+      }
+    });
+
+    return {
+      asPrerequisite: prerequisiteCourses,
+      asCorequisite: corequisiteCourses
+    };
+  } catch (error) {
+    console.error("Error fetching courses needing:", error);
+    throw new Error("Failed to fetch courses needing");
+  }
+}

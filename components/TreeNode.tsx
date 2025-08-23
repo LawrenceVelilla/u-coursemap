@@ -26,7 +26,7 @@ export function TreeNodeComponent({ node, depth }: TreeNodeComponentProps) {
   if (node.type === 'course') {
     return (
       <div className={cn("py-1 flex items-center gap-2", indentStyle)}>
-        <Link href={``} className="inline-block p-1 rounded-md transition-colors hover:bg-[#606c5d] hover:text-[#fefae0] duration-150">
+        <Link href={``} className="text-sm inline-block p-1 rounded-md transition-colors hover:bg-[#606c5d] hover:text-[#fefae0] duration-150">
           {node.label}
         </Link>
       </div>
@@ -57,7 +57,7 @@ export function TreeNodeComponent({ node, depth }: TreeNodeComponentProps) {
           ) : (
             <div className="w-4 h-4" />
           )}
-          <span className="font-semibold italic text-lg ml-2 px-2 rounded-lg text-secondary
+          <span className="font-semibold italic text-md ml-2 px-2 rounded-lg text-secondary
             bg-primary hover:bg-secondary hover:text-primary transition-colors duration-150"
           >
             {getOperatorDisplay(node.label)}

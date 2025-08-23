@@ -17,7 +17,7 @@ export function CourseInfoCard({
   keywords 
 }: CourseInfoCardProps) {
   return (
-    <Card className="max-w-4xl mx-auto frosted-glass">
+    <Card className="max-w-3xl mx-auto frosted-glass">
       <CardHeader>
         <CardTitle className="text-2xl text-primary font-bold">
           {courseCode}
@@ -29,8 +29,8 @@ export function CourseInfoCard({
           <div>
             <p className="text-sm text-gray-600">
               {keywords.map((keyword) => (
-                <Badge className='mr-2 rounded-2xl
-                hover:bg-secondary hover:text-primary transition-colors duration-150'
+                <Badge className='mr-2 mb-2 rounded-2xl bg-secondary text-primary
+                hover:bg-primary hover:text-secondary transition-colors duration-150'
                  key={keyword}>{keyword}</Badge>
               ))}
             </p>

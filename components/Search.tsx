@@ -33,8 +33,9 @@ export default function Search({ onCourseFound }: SearchProps) {
           onKeyDown={handleKeyDown}
           placeholder="Enter course code (e.g., CMPUT 174)"
           className="flex-1"
+          aria-label="Search for a course"
         />
-        <Button onClick={handleSearch} className="min-w-[80px] hover:bg-secondary hover:text-primary transition-colors duration-150">
+        <Button onClick={handleSearch} className="min-w-[80px] text-secondary hover:bg-secondary hover:text-primary transition-colors duration-150">
           Search
         </Button>
       </div>
