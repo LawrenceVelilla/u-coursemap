@@ -1,24 +1,24 @@
-'use client'
+"use client"
 
-import { useState } from 'react'
-import useCourse from '@/hooks/useCourse'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { CourseNotFound } from './ui/coursenotfound'
-import { CourseLoadingSkeleton } from './ui/courseskeleton'
-import { CourseInfoCard } from './CourseInfo'
-import { PrerequisitesCard } from './Prerequisites'
-import { CorequisitesCard } from './CorequisitesCard'
-import { NeededByCard } from './NeededBy'
-import { FocusedCourseModal } from './FocusedCourseModal'
-import { useCourseRequiring } from '@/hooks/useCourseRequiring'
+import { useState } from "react"
+import useCourse from "@/hooks/useCourse"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { CourseNotFound } from "./ui/coursenotfound"
+import { CourseLoadingSkeleton } from "./ui/courseskeleton"
+import { CourseInfoCard } from "./CourseInfo"
+import { PrerequisitesCard } from "./Prerequisites"
+import { CorequisitesCard } from "./CorequisitesCard"
+import { NeededByCard } from "./NeededBy"
+import { FocusedCourseModal } from "./FocusedCourseModal"
+import { useCourseRequiring } from "@/hooks/useCourseRequiring"
 
 interface CourseDisplayProps {
   courseCode: string
 }
 
 export function CourseDisplay({ courseCode }: CourseDisplayProps) {
-  const { data: courseData, isLoading: courseLoading, error: courseError } = useCourse(courseCode);
-  const { data: requiringData, isLoading: requiringLoading, error: requiringError } = useCourseRequiring(courseCode);
+  const { data: courseData, isLoading: courseLoading, error: courseError } = useCourse(courseCode)
+  const { data: requiringData, isLoading: requiringLoading, error: requiringError } = useCourseRequiring(courseCode)
 
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -26,9 +26,7 @@ export function CourseDisplay({ courseCode }: CourseDisplayProps) {
     return (
       <Card className="w-full max-w-4xl mx-auto">
         <CardContent className="p-6">
-          <p className="text-gray-500 text-center">
-            Search for a course to view its details
-          </p>
+          <p className="text-gray-500 text-center">Search for a course to view its details</p>
         </CardContent>
       </Card>
     )
@@ -54,39 +52,39 @@ export function CourseDisplay({ courseCode }: CourseDisplayProps) {
     return <CourseNotFound courseCode={courseCode} />
   }
 
-  const term = courseData.units?.term.split(',')[0];
+  const term = courseData.units?.term.split(",")[0]
   const termDisp = (() => {
     switch (term) {
-      case 'FALL':
-        return 'Fall';
-      case 'W':
-        return 'Winter';
-      case 'EITHER':
-        return 'Fall or Winter';
+      case "FALL":
+        return "Fall"
+      case "W":
+        return "Winter"
+      case "EITHER":
+        return "Fall or Winter"
       default:
-        return term || 'Not specified';
+        return term || "Not specified"
     }
-  })();
+  })()
 
   return (
     <>
       <div className="w-full max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div
+          className="grid gap-4 
+          grid-cols-1 
+          md:grid-cols-2 
+          lg:grid-cols-4 lg:grid-rows-4 lg:grid-flow-col-dense"
+        >
           {/* Prerequisites - Left tall card */}
-          <div className="col-span-1 md:col-span-1 lg:col-span-1 h-[35rem]">
-            <PrerequisitesCard 
+          <div className="col-span-1 lg:row-span-2 h-[35rem] md:h-auto lg:h-[35rem]">
+            <PrerequisitesCard
               prerequisites={courseData.requirements?.prerequisites}
               onOpenModal={() => setIsModalOpen(true)}
             />
           </div>
-          
-          {/* Needed By - Right tall card */}
-          <div className="col-span-1 md:col-span-1 lg:col-span-1 h-[35rem]">
-            <NeededByCard courseCode={courseData.courseCode} data={requiringData} />
-          </div>
-          
+
           {/* Course Information - Top right large card */}
-          <div className="col-span-1 md:col-span-2 lg:col-span-2 h-[17rem]">
+          <div className="col-span-1 md:col-span-2 lg:row-start-1 lg:col-start-3 lg:col-span-2 h-[17rem] md:h-auto lg:h-[17rem]">
             <CourseInfoCard
               courseCode={courseData.courseCode}
               title={courseData.title}
@@ -95,14 +93,19 @@ export function CourseDisplay({ courseCode }: CourseDisplayProps) {
               keywords={courseData.keywords}
             />
           </div>
-          
+
+          {/* Needed By - Right tall card */}
+          <div className="col-span-1 md:row-start-1 lg:row-start-1 lg:row-span-2 h-[35rem] md:h-auto lg:h-[35rem]">
+            <NeededByCard courseCode={courseData.courseCode} data={requiringData} />
+          </div>
+
           {/* Corequisites - Bottom left small card */}
-          <div className="col-start-3 col-end-3 col-span-1 md:col-span-1 lg:col-span-1 h-[17rem] ">
+          <div className="col-span-1 lg:col-start-3 lg:row-start-2 h-[17rem] md:h-auto lg:h-[17rem]">
             <CorequisitesCard corequisites={courseData.requirements?.corequisites} />
           </div>
-          
+
           {/* Other Info - Bottom right small card */}
-          <div className="col-span-1 sm:col-span-1 md:col-span-1 lg:col-span-1 h-[17rem]">
+          <div className="col-span-1 lg:col-start-4 lg:row-start-2 h-[17rem] md:h-auto lg:h-[17rem]">
             <Card className="h-full frosted-glass">
               <CardHeader>
                 <CardTitle className="text-lg">Other Info</CardTitle>
@@ -116,11 +119,7 @@ export function CourseDisplay({ courseCode }: CourseDisplayProps) {
       </div>
 
       {/* Focused Course Modal */}
-      <FocusedCourseModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        course={courseData}
-      />
+      <FocusedCourseModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} course={courseData} />
     </>
   )
 }
