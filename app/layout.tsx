@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import { Afacad, Caveat, Libre_Baskerville } from "next/font/google"
 import { ThemeProvider } from "@/providers/theme-provider"
 import { QueryProvider } from "@/providers/query-provider"
+import Header from "@/components/Header"
 import './globals.css';
 
 const geistSans = Geist({
@@ -53,6 +54,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
               enableSystem
               disableTransitionOnChange
             >
+              <Header />
               {children}
             </ThemeProvider>
           </QueryProvider>

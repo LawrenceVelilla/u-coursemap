@@ -1,7 +1,6 @@
 "use client"
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { useCourseRequiring } from '@/hooks/useCourseRequiring'
 import { useState } from 'react'
 import { ChevronRight } from 'lucide-react'
 
@@ -10,7 +9,7 @@ interface NeededByCardProps {
   data: any
 }
 
-export function NeededByCard({ courseCode, data }: NeededByCardProps) {
+export function NeededByCard({ data }: NeededByCardProps) {
   const [prereqExpanded, setPrereqExpanded] = useState(true);
   const [coreqExpanded, setCoreqExpanded] = useState(true);
 
@@ -51,7 +50,6 @@ export function NeededByCard({ courseCode, data }: NeededByCardProps) {
         
         <section className="mb-4">
           <section className="mb-3">
-        {/* Prerequisite Section */}
           <span onClick={() => setPrereqExpanded((prev) => !prev)} className="text-sm text-primary cursor-pointer flex items-center">
             {hasBoth && hasPrerequisites ?
               <ChevronRight className={`h-4 w-4 mr-1 transition-transform ${prereqExpanded ? 'transform rotate-90' : ''}`} />
@@ -65,7 +63,7 @@ export function NeededByCard({ courseCode, data }: NeededByCardProps) {
               {prerequisiteCourses.map((course: any) => (
                 <div key={course.courseCode} className="flex items-start justify-between">
                   <div>
-                    <Badge variant="outline" className="font-mono text-xs">
+                    <Badge variant="outline" className="font-mono text-xs cursor-pointer">
                       {course.courseCode}
                     </Badge>
                     <p className="text-sm mt-1">{course.title}</p>

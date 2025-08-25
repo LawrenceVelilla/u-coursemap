@@ -57,8 +57,8 @@ export function TreeNodeComponent({ node, depth }: TreeNodeComponentProps) {
           ) : (
             <div className="w-4 h-4" />
           )}
-          <span className="font-semibold italic text-md ml-2 px-2 rounded-lg text-secondary
-            bg-primary hover:bg-secondary hover:text-primary transition-colors duration-150"
+          <span className="font-semibold font-mono text-sm ml-2 px-2 rounded-md 
+            border border-primary-grey hover:bg-secondary hover:text-primary transition-colors duration-150"
           >
             {getOperatorDisplay(node.label)}
           </span>

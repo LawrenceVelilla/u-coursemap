@@ -85,7 +85,7 @@
 
 .dark {
   --glass-bg: rgba(45, 45, 45, 0.3);
-  --background: oklch(0.141 0.005 285.823);
+  --background: #000000;
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.21 0.006 285.885);
   --card-foreground: oklch(0.9814 0.0342 99.83);
@@ -129,11 +129,11 @@
 
 @layer utilities {
   .frosted-glass {
-    background: rgba(53, 47, 47, 0.15);
-    border-radius: 16px;
+      background: rgba(53, 47, 47, 0.2);
+      border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(4.9px);
-    -webkit-backdrop-filter: blur(4.9px);
-    border: 1px solid rgba(28, 26, 26, 0.12);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
   }
 }
