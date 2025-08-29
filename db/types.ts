@@ -27,6 +27,7 @@ export interface RawCourse {
 
 export interface FinalCourseDetails {
   department: string;
+  description: string;
   courseCode: string;
   title: string;
   keywords?: string[];

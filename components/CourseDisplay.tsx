@@ -1,25 +1,41 @@
 "use client"
 
 import { useState } from "react"
-import useCourse from "@/hooks/useCourse"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { CourseNotFound } from "./ui/coursenotfound"
 import { CourseLoadingSkeleton } from "./ui/courseskeleton"
 import { CourseInfoCard } from "./CourseInfo"
 import { PrerequisitesCard } from "./Prerequisites"
 import { CorequisitesCard } from "./CorequisitesCard"
 import { NeededByCard } from "./NeededBy"
 import { FocusedCourseModal } from "./FocusedCourseModal"
-import { useCourseRequiring } from "@/hooks/useCourseRequiring"
+import { useQueries } from "@tanstack/react-query"
+import { getCourseDetails, getCoursesNeeding } from "@/actions/courses"
+
 
 interface CourseDisplayProps {
   courseCode: string
 }
 
-export function CourseDisplay({ courseCode }: CourseDisplayProps) {
-  const { data: courseData, isLoading: courseLoading, error: courseError } = useCourse(courseCode)
-  const { data: requiringData, isLoading: requiringLoading, error: requiringError } = useCourseRequiring(courseCode)
 
+export function CourseDisplay({ courseCode }: CourseDisplayProps) {
+  const results = useQueries({
+    queries: [
+      {
+        queryKey: ["course", courseCode],
+        queryFn: () => getCourseDetails(courseCode),
+        enabled: !!courseCode && courseCode.trim().length > 0,
+        staleTime: Infinity,
+        gcTime: 1000 * 60 * 60 * 24, // 24 hours
+      },
+      {
+        queryKey: ["courseRequiring", courseCode],
+        queryFn: () => getCoursesNeeding(courseCode),
+        enabled: !!courseCode && courseCode.trim().length > 0,
+        staleTime: Infinity,
+        gcTime: 1000 * 60 * 60 * 24, // 24 hours
+      }
+    ]
+  })
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   if (!courseCode) {
@@ -32,27 +48,27 @@ export function CourseDisplay({ courseCode }: CourseDisplayProps) {
     )
   }
 
-  if (courseLoading || requiringLoading) {
-    return <CourseLoadingSkeleton />
-  }
+  const courseResult = results[0]
+  const requiringResult = results[1]
 
-  if (courseError || requiringError) {
+
+  if (courseResult.error || requiringResult.error) {
     return (
       <Card className="w-full max-w-4xl mx-auto">
         <CardContent className="p-6">
           <p className="text-red-600 text-center">
-            Error loading course: {courseError?.message || requiringError?.message}
+            Error loading course: {courseResult.error?.message || requiringResult.error?.message}
           </p>
         </CardContent>
       </Card>
     )
   }
 
-  if (!courseData) {
-    return <CourseNotFound courseCode={courseCode} />
+  if (courseResult.isLoading || requiringResult.isLoading) {
+    return <CourseLoadingSkeleton />
   }
 
-  const term = courseData.units?.term.split(",")[0]
+  const term = courseResult.data.units?.term.split(",")[0]
   const termDisp = (() => {
     switch (term) {
       case "FALL":
@@ -78,7 +94,7 @@ export function CourseDisplay({ courseCode }: CourseDisplayProps) {
           {/* Prerequisites - Left tall card */}
           <div className="col-span-1 lg:row-span-2 h-[35rem] md:h-auto lg:h-[35rem]">
             <PrerequisitesCard
-              prerequisites={courseData.requirements?.prerequisites}
+              prerequisites={courseResult.data.requirements?.prerequisites}
               onOpenModal={() => setIsModalOpen(true)}
             />
           </div>
@@ -86,22 +102,22 @@ export function CourseDisplay({ courseCode }: CourseDisplayProps) {
           {/* Course Information - Top right large card */}
           <div className="col-span-1 md:col-span-2 lg:row-start-1 lg:col-start-3 lg:col-span-2 h-[17rem] md:h-auto lg:h-[17rem]">
             <CourseInfoCard
-              courseCode={courseData.courseCode}
-              title={courseData.title}
-              credits={courseData.units?.credits?.toString()}
+              courseCode={courseResult.data.courseCode}
+              title={courseResult.data.title}
+              credits={courseResult.data.units?.credits?.toString()}
               term={termDisp}
-              keywords={courseData.keywords}
+              keywords={courseResult.data.keywords}
             />
           </div>
 
           {/* Needed By - Right tall card */}
           <div className="col-span-1 md:row-start-1 lg:row-start-1 lg:row-span-2 h-[35rem] md:h-auto lg:h-[35rem]">
-            <NeededByCard courseCode={courseData.courseCode} data={requiringData} />
+            <NeededByCard courseCode={courseResult.data.courseCode} data={requiringResult.data} />
           </div>
 
           {/* Corequisites - Bottom left small card */}
           <div className="col-span-1 lg:col-start-3 lg:row-start-2 h-[17rem] md:h-auto lg:h-[17rem]">
-            <CorequisitesCard corequisites={courseData.requirements?.corequisites} />
+            <CorequisitesCard corequisites={courseResult.data.requirements?.corequisites} />
           </div>
 
           {/* Other Info - Bottom right small card */}
@@ -119,7 +135,7 @@ export function CourseDisplay({ courseCode }: CourseDisplayProps) {
       </div>
 
       {/* Focused Course Modal */}
-      <FocusedCourseModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} course={courseData} />
+      <FocusedCourseModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} course={courseResult.data} />
     </>
   )
 }

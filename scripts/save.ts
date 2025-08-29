@@ -8,6 +8,7 @@ export async function save(course: FinalCourseDetails): Promise<boolean> {
         department: course.department,
         courseCode: course.courseCode,
         title: course.title,
+        description: course.description,
         units: course.units,
         keywords: course.keywords,
         requirements: JSON.parse(JSON.stringify(course.requirements)),

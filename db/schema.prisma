@@ -9,6 +9,7 @@ datasource db {
 model Course {
   id                      String     @id @default(uuid()) @db.Uuid // Match Supabase UUID type
   department              String
+  description             String
   courseCode              String    
   title                   String
   units                   Json? // Use Json type for JSONB columns
