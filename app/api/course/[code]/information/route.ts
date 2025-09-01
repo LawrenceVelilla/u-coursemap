@@ -3,8 +3,9 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
     request: NextRequest,
-    { params }: { params: { code: string } }
+    context: { params: Promise<{ code: string }> }
 ) {
+    const params = await context.params;
     const courseCode = params.code;
     const department = courseCode.split(' ').slice(0, -1).join(' ');
     try {

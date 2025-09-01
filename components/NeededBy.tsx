@@ -3,28 +3,26 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { useState } from 'react'
 import { ChevronRight } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 interface NeededByCardProps {
-  courseCode: string
   data: any
 }
 
 export function NeededByCard({ data }: NeededByCardProps) {
+  const router = useRouter();
   const [prereqExpanded, setPrereqExpanded] = useState(true);
   const [coreqExpanded, setCoreqExpanded] = useState(true);
 
-  const hasBoth = data?.asPrerequisite && data.asCorequisite;
-  const hasPrerequisites = data?.asPrerequisite && data.asPrerequisite.length > 0;
-  const hasCorequisites = data?.asCorequisite && data.asCorequisite.length > 0;
+  const handleCourseClick = (courseCode: string) => {
+    router.push(`/?code=${courseCode}`);
+  };
 
- 
+  const [prerequisiteCourses, corequisiteCourses] = [data.prerequisites || [], data.corequisites || []];
+  const [hasPrerequisites, hasCorequisites] = [prerequisiteCourses.length > 0, corequisiteCourses.length > 0];
+  const hasBoth = hasPrerequisites && hasCorequisites;
 
-  const prerequisiteCourses = data?.asPrerequisite || [];
-  const corequisiteCourses = data?.asCorequisite || [];
-
-  const hasAnyData = prerequisiteCourses.length > 0 || corequisiteCourses.length > 0;
-
-  if (!hasAnyData) {
+  if (!hasPrerequisites && !hasCorequisites) {
     return (
       <Card className="h-full frosted-glass">
         <CardHeader>
@@ -46,8 +44,8 @@ export function NeededByCard({ data }: NeededByCardProps) {
       <CardHeader>
         <CardTitle className="text-lg">Needed By</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6 h-full overflow-y-auto">
-        
+      <CardContent className="space-y-6 h-full overflow-hidden">
+        <section className="h-full overflow-y-auto pr-2">
         <section className="mb-4">
           <section className="mb-3">
           <span onClick={() => setPrereqExpanded((prev) => !prev)} className="text-sm text-primary cursor-pointer flex items-center">
@@ -63,7 +61,11 @@ export function NeededByCard({ data }: NeededByCardProps) {
               {prerequisiteCourses.map((course: any) => (
                 <div key={course.courseCode} className="flex items-start justify-between">
                   <div>
-                    <Badge variant="outline" className="font-mono text-xs cursor-pointer">
+                    <Badge 
+                      variant="outline" 
+                      className="font-mono text-xs cursor-pointer hover:bg-secondary hover:text-primary transition-colors duration-150"
+                      onClick={() => handleCourseClick(course.courseCode)}
+                    >
                       {course.courseCode}
                     </Badge>
                     <p className="text-sm mt-1">{course.title}</p>
@@ -97,7 +99,11 @@ export function NeededByCard({ data }: NeededByCardProps) {
               {corequisiteCourses.map((course: any) => (
                 <div key={course.courseCode} className="flex items-start justify-between">
                   <div>
-                    <Badge variant="secondary" className="font-mono text-xs">
+                    <Badge 
+                      variant="secondary" 
+                      className="font-mono text-xs cursor-pointer hover:bg-primary hover:text-secondary transition-colors duration-150"
+                      onClick={() => handleCourseClick(course.courseCode)}
+                    >
                       {course.courseCode}
                     </Badge>
                     <p className="text-sm mt-1">{course.title}</p>
@@ -107,6 +113,7 @@ export function NeededByCard({ data }: NeededByCardProps) {
             </div>
           </div>
         )}
+        </section>
         </section>
       </CardContent>
     </Card>

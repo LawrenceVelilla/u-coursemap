@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Calculator } from "lucide-react";
 
 export default function GpaCalculatorPage() {
@@ -12,7 +12,7 @@ export default function GpaCalculatorPage() {
             </div>
             <CardTitle className="text-2xl">GPA Calculator</CardTitle>
             <CardDescription>
-              Calculate your grade point average
+              Calculate grade point average
             </CardDescription>
           </CardHeader>          
         </Card>

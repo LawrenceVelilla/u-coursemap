@@ -5,6 +5,7 @@ import { transformToTree } from '@/lib/requisite-tree'
 
 interface CorequisitesCardProps {
   corequisites?: RequirementCondition
+  onOpenModal?: () => void
 }
 
 export function CorequisitesCard({ corequisites }: CorequisitesCardProps) {

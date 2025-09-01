@@ -1,16 +1,12 @@
 "use client"
 
-import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { CourseLoadingSkeleton } from "./ui/courseskeleton"
 import { CourseInfoCard } from "./CourseInfo"
 import { PrerequisitesCard } from "./Prerequisites"
 import { CorequisitesCard } from "./CorequisitesCard"
 import { NeededByCard } from "./NeededBy"
-import { FocusedCourseModal } from "./FocusedCourseModal"
-import { useQueries, useQuery } from "@tanstack/react-query"
-import { getCourseDetails, getCoursesNeeding } from "@/actions/courses"
-
+import { useQueries } from "@tanstack/react-query"
 
 interface CourseDisplayProps {
   courseCode: string
@@ -18,9 +14,13 @@ interface CourseDisplayProps {
 
 
 export function CourseDisplay({ courseCode }: CourseDisplayProps) {
-  const results = useQuery({
+  const startTime = Date.now();
+  console.log(`[CourseDisplay] Starting fetch for: ${courseCode} at ${new Date(startTime).toISOString()}`);
+  const results = useQueries({
+    queries: [
+      {
         queryKey: ["course", courseCode],
-        queryFn: async () => await fetch(`/api/course/${courseCode}`).then(res => {
+        queryFn: async () => await fetch(`/api/course/${courseCode}/information`).then(res => {
           if (!res.ok) {
             throw new Error("Course not found");
           }
@@ -28,10 +28,28 @@ export function CourseDisplay({ courseCode }: CourseDisplayProps) {
         }),
         enabled: !!courseCode && courseCode.trim().length > 0,
         staleTime: Infinity,
-        gcTime: 1000 * 60 * 60 * 24, // 24 hours
-      });
-  const [isModalOpen, setIsModalOpen] = useState(false)
+        gcTime: 1000 * 60 * 60 * 24,
+      },
+      {
+        queryKey: ["coursesNeeding", courseCode],
+        queryFn: async () => await fetch(`/api/course/${courseCode}/neededBy`).then(res => {
+          if (!res.ok) {
+            throw new Error("Course not found");
+          }
+          return res.json();
+        }),
+        enabled: !!courseCode && courseCode.trim().length > 0,
+        staleTime: Infinity,
+        gcTime: 1000 * 60 * 60 * 24,
+      }
+    ]
+  });
+  // const endTime = Date.now();
+  // console.log(`[CourseDisplay] Fetch initiated for: ${courseCode} in ${endTime - startTime}ms at ${new Date(endTime).toISOString()}`);
+  const courseDetails = results[0]
+  const coursesNeeding = results[1]
 
+ 
   if (!courseCode) {
     return (
       <Card className="w-full max-w-4xl mx-auto">
@@ -44,23 +62,35 @@ export function CourseDisplay({ courseCode }: CourseDisplayProps) {
 
 
 
-  if (results.isError) {
+  if (courseDetails.isError || coursesNeeding.isError) {
     return (
       <Card className="w-full max-w-4xl mx-auto">
         <CardContent className="p-6">
           <p className="text-red-600 text-center">
-            Error loading course: {results.error?.message}
+            Error loading course: {courseDetails.error?.message || coursesNeeding.error?.message}
           </p>
         </CardContent>
       </Card>
     )
   }
 
-  if (results.isLoading) {
+  if (courseDetails.isLoading || coursesNeeding.isLoading) {
     return <CourseLoadingSkeleton />
   }
 
-  const term = results.data.units?.term.split(",")[0]
+  if (!courseDetails.data) {
+    return (
+      <Card className="w-full max-w-4xl mx-auto">
+        <CardContent className="p-6">
+          <p className="text-red-600 text-center">
+            Course not found: &quot;{courseCode}&quot; does not exist in our database.
+          </p>
+        </CardContent>
+      </Card>
+    )
+  }
+
+  const term = courseDetails.data.units?.term.split(",")[0]
   const termDisp = (() => {
     switch (term) {
       case "FALL":
@@ -75,7 +105,7 @@ export function CourseDisplay({ courseCode }: CourseDisplayProps) {
   })()
 
   return (
-    <>
+    <div>
       <div className="w-full max-w-7xl mx-auto">
         <div
           className="grid gap-4 
@@ -83,36 +113,35 @@ export function CourseDisplay({ courseCode }: CourseDisplayProps) {
           md:grid-cols-2 
           lg:grid-cols-4 lg:grid-rows-4 lg:grid-flow-col-dense"
         >
-          {/* Prerequisites - Left tall card */}
+          {/* Prerequisites */}
           <div className="col-span-1 lg:row-span-2 h-[35rem] md:h-auto lg:h-[35rem]">
             <PrerequisitesCard
-              prerequisites={results.data.requirements?.prerequisites}
-              onOpenModal={() => setIsModalOpen(true)}
+              prerequisites={courseDetails.data.requirements?.prerequisites}
             />
           </div>
 
-          {/* Course Information - Top right large card */}
+          {/* Course Information */}
           <div className="col-span-1 md:col-span-2 lg:row-start-1 lg:col-start-3 lg:col-span-2 h-[17rem] md:h-auto lg:h-[17rem]">
             <CourseInfoCard
-              courseCode={results.data.courseCode}
-              title={results.data.title}
-              credits={results.data.units?.credits?.toString()}
+              courseCode={courseDetails.data.courseCode}
+              title={courseDetails.data.title}
+              credits={courseDetails.data.units?.credits?.toString()}
               term={termDisp}
-              keywords={results.data.keywords}
+              keywords={courseDetails.data.keywords}
             />
           </div>
 
-          {/* Needed By - Right tall card */}
+          {/* Needed By */}
           <div className="col-span-1 md:row-start-1 lg:row-start-1 lg:row-span-2 h-[35rem] md:h-auto lg:h-[35rem]">
-            <NeededByCard courseCode={results.data.courseCode} data={results.data.requiring} />
+            <NeededByCard data={coursesNeeding.data} />
           </div>
-
-          {/* Corequisites - Bottom left small card */}
+    
+          {/* Corequisites */}
           <div className="col-span-1 lg:col-start-3 lg:row-start-2 h-[17rem] md:h-auto lg:h-[17rem]">
-            <CorequisitesCard corequisites={results.data.requirements?.corequisites} />
+            <CorequisitesCard corequisites={courseDetails.data.requirements?.corequisites} />
           </div>
 
-          {/* Other Info - Bottom right small card */}
+          {/* Other Info */}
           <div className="col-span-1 lg:col-start-4 lg:row-start-2 h-[17rem] md:h-auto lg:h-[17rem]">
             <Card className="h-full frosted-glass">
               <CardHeader>
@@ -126,8 +155,6 @@ export function CourseDisplay({ courseCode }: CourseDisplayProps) {
         </div>
       </div>
 
-      {/* Focused Course Modal */}
-      <FocusedCourseModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} course={results.data} />
-    </>
+    </div>
   )
 }

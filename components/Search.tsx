@@ -1,20 +1,31 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
 
 interface SearchProps {
   onCourseFound?: (courseCode: string) => void
+  defaultValue?: string
 }
 
-export default function Search({ onCourseFound }: SearchProps) {
-  const [searchInput, setSearchInput] = useState("");
+export default function Search({ onCourseFound, defaultValue = "" }: SearchProps) {
+  const router = useRouter();
+  const [searchInput, setSearchInput] = useState(defaultValue);
+
+
+  // Sync the default value on the search bar with prop changes
+  useEffect(() => {
+    setSearchInput(defaultValue);
+  }, [defaultValue]);
 
   const handleSearch = () => {
     const courseCode = searchInput.trim().toUpperCase();
     if (courseCode && onCourseFound) {
       onCourseFound(courseCode);
     }
+    router.push(`/?code=${courseCode}`);
+
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
