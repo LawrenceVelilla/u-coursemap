@@ -21,8 +21,8 @@ export function RequisiteTree({
   if (treeNodes.length === 0) return null
 
   return (
-    <div className={cn("space-y-2", className)}>
-      <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
+    <div className={cn("", className)}>
+      <h3 className="text-lg font-semibold flex items-center">
         {title}
       </h3>
       <div className=" p-4 rounded-lg">

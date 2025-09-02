@@ -5,7 +5,6 @@ import { transformToTree } from '@/lib/requisite-tree'
 
 interface CorequisitesCardProps {
   corequisites?: RequirementCondition
-  onOpenModal?: () => void
 }
 
 export function CorequisitesCard({ corequisites }: CorequisitesCardProps) {
@@ -13,7 +12,7 @@ export function CorequisitesCard({ corequisites }: CorequisitesCardProps) {
   
   if (!hasCorequisites) {
     return (
-      <Card className="h-fit frosted-glass">
+      <Card className="h-full frosted-glass">
         <CardHeader>
           <CardTitle className="text-lg">Corequisites</CardTitle>
         </CardHeader>
@@ -25,13 +24,15 @@ export function CorequisitesCard({ corequisites }: CorequisitesCardProps) {
   }
 
   return (
-    <Card className="h-fit frosted-glass">
-      <CardContent className="p-0">
-        <RequisiteTree 
-          requirements={corequisites}
-          title="Corequisites"
-          className="p-6"
-        />
+    <Card className="h-full frosted-glass">
+      <CardContent className="p-0 h-full overflow-hidden">
+        <div className="h-full overflow-y-auto">
+          <RequisiteTree
+            requirements={corequisites}
+            title="Corequisites"
+            className="p-6"
+          />
+        </div>
       </CardContent>
     </Card>
   )

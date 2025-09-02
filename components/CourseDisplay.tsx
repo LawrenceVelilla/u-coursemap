@@ -121,7 +121,7 @@ export function CourseDisplay({ courseCode }: CourseDisplayProps) {
           </div>
 
           {/* Course Information */}
-          <div className="col-span-1 md:col-span-2 lg:row-start-1 lg:col-start-3 lg:col-span-2 h-[17rem] md:h-auto lg:h-[17rem]">
+          <div className="col-span-1 md:col-span-2 lg:row-start-1 lg:col-start-3 lg:col-span-2 h-[35rem] md:h-auto lg:h-[17rem]">
             <CourseInfoCard
               courseCode={courseDetails.data.courseCode}
               title={courseDetails.data.title}
@@ -132,17 +132,17 @@ export function CourseDisplay({ courseCode }: CourseDisplayProps) {
           </div>
 
           {/* Needed By */}
-          <div className="col-span-1 md:row-start-1 lg:row-start-1 lg:row-span-2 h-[35rem] md:h-auto lg:h-[35rem]">
+          <div className="col-span-1 md:row-start-1 lg:row-start-1 lg:row-span-2 h-[35rem] md:h-[35rem] lg:h-[35rem]">
             <NeededByCard data={coursesNeeding.data} />
           </div>
     
           {/* Corequisites */}
-          <div className="col-span-1 lg:col-start-3 lg:row-start-2 h-[17rem] md:h-auto lg:h-[17rem]">
+          <div className="col-span-1 lg:col-start-3 lg:row-start-2 h-[17rem] md:h-[17rem] lg:h-[17rem]">
             <CorequisitesCard corequisites={courseDetails.data.requirements?.corequisites} />
           </div>
 
           {/* Other Info */}
-          <div className="col-span-1 lg:col-start-4 lg:row-start-2 h-[17rem] md:h-auto lg:h-[17rem]">
+          <div className="col-span-1 lg:col-start-4 lg:row-start-2 h-[17rem] md:h-[17rem] lg:h-[17rem]">
             <Card className="h-full frosted-glass">
               <CardHeader>
                 <CardTitle className="text-lg">Other Info</CardTitle>

@@ -43,7 +43,7 @@ export function PrerequisitesCard({ prerequisites, onOpenModal }: PrerequisitesC
           <RequisiteTree 
             requirements={prerequisites}
             title="Prerequisites"
-            className="p-6"
+            className="px-8 py-6 h-full"
           />
         </div>
         {onOpenModal && (

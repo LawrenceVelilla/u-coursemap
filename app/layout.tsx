@@ -50,7 +50,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <QueryProvider>
             <ThemeProvider
               attribute="class"
-              defaultTheme="system"
+              defaultTheme="dark"
               enableSystem
               disableTransitionOnChange
             >

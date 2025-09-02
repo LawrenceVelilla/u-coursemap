@@ -42,7 +42,7 @@ export function NeededByCard({ data }: NeededByCardProps) {
   return (
     <Card className="h-full frosted-glass">
       <CardHeader>
-        <CardTitle className="text-lg">Needed By</CardTitle>
+        <CardTitle className="text-lg pt-6">Needed By</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6 h-full overflow-hidden">
         <section className="h-full overflow-y-auto pr-2">

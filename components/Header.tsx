@@ -23,9 +23,14 @@ const nav = [
   },
   {
     name: 'Profile',
-    href: '/profile',
+    href: '/login',
     icon: User,
   },
+  {
+    name: 'test',
+    href: '/server-test',
+    icon: User,
+  }
 ];
 
 export default function Header() {
