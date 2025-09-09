@@ -3,10 +3,9 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
     request: NextRequest,
-    context: { params: Promise<{ code: string }> }
+    { params }: { params: Promise<{ code: string }> }
 ) {
-    const params = await context.params;
-    const courseCode = params.code;
+    const { code: courseCode } = await params;
     const department = courseCode.split(' ').slice(0, -1).join(' ');
     try {
         const course = await prisma.course.findUnique({
