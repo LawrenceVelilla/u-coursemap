@@ -15,7 +15,8 @@ export default function Search({ onCourseFound, defaultValue = "" }: SearchProps
   const [searchInput, setSearchInput] = useState(defaultValue);
 
 
-  // Sync the default value on the search bar with prop changes
+  // Sync the default value on the search bar with prop changes 
+  // (Displays the Current CourseCode on the Search Bar) for a better UX when navigating
   useEffect(() => {
     setSearchInput(defaultValue);
   }, [defaultValue]);
@@ -25,7 +26,7 @@ export default function Search({ onCourseFound, defaultValue = "" }: SearchProps
     if (courseCode && onCourseFound) {
       onCourseFound(courseCode);
     }
-    router.push(`/?code=${courseCode}`);
+    router.push(`/search?code=${courseCode}`);
 
   };
 

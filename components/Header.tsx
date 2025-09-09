@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 const nav = [
   {
     name: 'Search',
-    href: '/',
+    href: '/search',
     icon: Search,
   },
   {
@@ -26,11 +26,6 @@ const nav = [
     href: '/login',
     icon: User,
   },
-  {
-    name: 'test',
-    href: '/server-test',
-    icon: User,
-  }
 ];
 
 export default function Header() {

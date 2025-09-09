@@ -7,6 +7,7 @@ interface CourseInfoCardProps {
   credits?: string
   term?: string
   keywords?: string[]
+  description?: string
 }
 
 export function CourseInfoCard({ 
@@ -14,15 +15,15 @@ export function CourseInfoCard({
   title, 
   credits, 
   term, 
-  keywords 
+  keywords,
+  description
 }: CourseInfoCardProps) {
   return (
-    <Card className="max-w-3xl mx-auto frosted-glass">
+    <Card className="mx-auto h-full frosted-glass">
       <CardHeader>
         <CardTitle className="text-2xl text-primary font-bold">
-          {courseCode}
+          {courseCode} <span className="text-lg font-light ml-2">{title}</span>
         </CardTitle>
-        <p className="text-lg text-primary">{title}</p>
       </CardHeader>
       <CardContent className="space-y-4">
         {keywords && keywords.length > 0 && (
@@ -36,7 +37,13 @@ export function CourseInfoCard({
             </p>
           </div>
         )}
-        <div className="flex flex-col gap-2 text-sm">          
+        <hr />
+        {description && (
+          <div>
+            <p className="text-sm">{description}</p>
+          </div>
+        )}
+        <div className="flex justify-between text-sm">          
             <span className="font-medium">Credits: {credits || 'Not specified'}</span>
             <span className="font-medium">Available: {term || 'Not specified'}</span>          
         </div>

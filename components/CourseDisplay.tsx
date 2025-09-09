@@ -14,8 +14,6 @@ interface CourseDisplayProps {
 
 
 export function CourseDisplay({ courseCode }: CourseDisplayProps) {
-  const startTime = Date.now();
-  console.log(`[CourseDisplay] Starting fetch for: ${courseCode} at ${new Date(startTime).toISOString()}`);
   const results = useQueries({
     queries: [
       {
@@ -44,10 +42,8 @@ export function CourseDisplay({ courseCode }: CourseDisplayProps) {
       }
     ]
   });
-  // const endTime = Date.now();
-  // console.log(`[CourseDisplay] Fetch initiated for: ${courseCode} in ${endTime - startTime}ms at ${new Date(endTime).toISOString()}`);
-  const courseDetails = results[0]
-  const coursesNeeding = results[1]
+  const courseDetails = results[0];
+  const coursesNeeding = results[1];
 
  
   if (!courseCode) {
@@ -108,49 +104,50 @@ export function CourseDisplay({ courseCode }: CourseDisplayProps) {
     <div>
       <div className="w-full max-w-7xl mx-auto">
         <div
-          className="grid gap-4 
+          className="grid gap-4
           grid-cols-1 
-          md:grid-cols-2 
-          lg:grid-cols-4 lg:grid-rows-4 lg:grid-flow-col-dense"
+          md:grid-cols-3
+          lg:grid-cols-4 lg:grid-rows-2"
         >
-          {/* Prerequisites */}
-          <div className="col-span-1 lg:row-span-2 h-[35rem] md:h-auto lg:h-[35rem]">
-            <PrerequisitesCard
-              prerequisites={courseDetails.data.requirements?.prerequisites}
-            />
+          {/* Description - Left column spanning both rows */}
+          <div className="col-span-1 md:col-span-1 lg:col-span-1 lg:row-span-2 h-auto lg:h-[52rem]">
+            <Card className="h-full frosted-glass">
+              <CardHeader>
+                <CardTitle className="text-lg">Description</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-gray-600">Additional course information will be displayed here.</p>
+              </CardContent>
+            </Card>
           </div>
 
-          {/* Course Information */}
-          <div className="col-span-1 md:col-span-2 lg:row-start-1 lg:col-start-3 lg:col-span-2 h-[35rem] md:h-auto lg:h-[17rem]">
+          {/* Course Information - Top right */}
+          <div className="col-span-1 md:col-span-2 lg:col-span-3 lg:row-span-1 h-auto lg:h-[25rem]">
             <CourseInfoCard
               courseCode={courseDetails.data.courseCode}
               title={courseDetails.data.title}
               credits={courseDetails.data.units?.credits?.toString()}
               term={termDisp}
               keywords={courseDetails.data.keywords}
+              description={courseDetails.data.description}
             />
           </div>
 
-          {/* Needed By */}
-          <div className="col-span-1 md:row-start-1 lg:row-start-1 lg:row-span-2 h-[35rem] md:h-[35rem] lg:h-[35rem]">
+          {/* Prerequisites - Bottom right row */}
+          <div className="col-span-1 md:col-span-1 lg:col-span-1 lg:row-span-1 h-auto lg:h-[25rem]">
+            <PrerequisitesCard
+              prerequisites={courseDetails.data.requirements?.prerequisites}
+            />
+          </div>
+
+          {/* Needed By - Bottom right row */}
+          <div className="col-span-1 md:col-span-1 lg:col-span-1 lg:row-span-1 h-auto lg:h-[25rem]">
             <NeededByCard data={coursesNeeding.data} />
           </div>
     
-          {/* Corequisites */}
-          <div className="col-span-1 lg:col-start-3 lg:row-start-2 h-[17rem] md:h-[17rem] lg:h-[17rem]">
+          {/* Corequisites - Bottom right row */}
+          <div className="col-span-1 md:col-span-1 lg:col-span-1 lg:row-span-1 h-auto lg:h-[25rem]">
             <CorequisitesCard corequisites={courseDetails.data.requirements?.corequisites} />
-          </div>
-
-          {/* Other Info */}
-          <div className="col-span-1 lg:col-start-4 lg:row-start-2 h-[17rem] md:h-[17rem] lg:h-[17rem]">
-            <Card className="h-full frosted-glass">
-              <CardHeader>
-                <CardTitle className="text-lg">Other Info</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-gray-600">Additional course information will be displayed here.</p>
-              </CardContent>
-            </Card>
           </div>
         </div>
       </div>

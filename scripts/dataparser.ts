@@ -1,10 +1,6 @@
 import { OpenAI } from 'openai';
-import path from 'path';
-import * as dotenv from 'dotenv';
 import { RawCourse, FinalCourseDetails } from '../db/types';
-import { BASE_PROMPT } from '../lib/baseprompt';
-
-dotenv.config({ path: path.resolve(process.cwd(), '.env') });
+import { BASE_PROMPT } from './baseprompt';
 
 async function descriptionParser(description: string): Promise<any> {
   const prompt = description
