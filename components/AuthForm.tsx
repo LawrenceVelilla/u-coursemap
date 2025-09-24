@@ -1,11 +1,17 @@
-"use client";
+"use client"
 
 import { Label } from "@radix-ui/react-label";
+import Link from "next/link";
 import { CardContent, CardFooter } from "./ui/card";
 import { Input } from "./ui/input";
 import { useTransition } from "react";
 import { Button } from "./ui/button";
 import { Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useRouter } from 'next/navigation'
+import { loginAction, signUpAction } from "@/actions/users";
+import { redirect } from "next/navigation";
+
 
 type Props = {
     type: 'login' | 'signup';
@@ -13,13 +19,39 @@ type Props = {
 }
 
 export function AuthForm({ type }: Props) {
+    const router = useRouter();
     const isLoginForm = type === 'login';
+    const [isPending, startTransition] = useTransition();
 
     const handleSubmit = (formData: FormData) => {
-        console.log("form submitted");
+        startTransition(async () => {
+            const email = formData.get('email') as string;
+            const password = formData.get('password') as string;
+            let errorMessage;
+            let title;
+            let message;
+
+            if (isLoginForm) {
+                errorMessage = (await loginAction(email, password))?.error;
+                title = 'Logged in';
+                message = 'You have been successfully logged in.';
+            } else {
+                errorMessage = (await signUpAction(email, password))?.error;
+                title = 'Account created';
+                message = 'Your account has been successfully created.';
+            }
+            
+            if (errorMessage) {
+                alert(`Error: ${errorMessage}`);
+            } else {
+                alert(`${title}: ${message}`);
+                // Redirect after successful login or signup
+                
+            }
+        });
     }
 
-    const [isPending, startTransition] = useTransition();
+
 
     return (
         <form action={handleSubmit} className="flex flex-col gap-4 w-full max-w-sm mx-auto">
@@ -35,11 +67,17 @@ export function AuthForm({ type }: Props) {
                     disabled={isPending} />
                 </div>        
             </CardContent>
-            <CardFooter className="p-6">
-                <Button>
-                    {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : isLoginForm ? 'Login' : 'Sign Up'}
+            <CardFooter className="p-6 flex flex-col gap-6">
+                <Button className="w-full">
+                   {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : isLoginForm ? 'Login' : 'Sign Up'}
                 </Button>
-            </CardFooter>
+                <p className="text-sm text-center text-gray-600">
+                    {isLoginForm ? "Don't have an account? Sign up" : "Already have an account? Log in"}
+                    <Link href={isLoginForm ? '/sign-up' : '/login'} className={cn("ml-1 font-medium text-primary hover:underline", isPending ? "pointer-events-none text-gray-400" : "")}>
+                        {isLoginForm ? 'Sign up' : 'Log in'}
+                    </Link>.
+                </p>
+            </CardFooter>b
         </form>
     )
 }

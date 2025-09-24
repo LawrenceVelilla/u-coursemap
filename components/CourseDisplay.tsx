@@ -113,7 +113,7 @@ export function CourseDisplay({ courseCode }: CourseDisplayProps) {
           <div className="col-span-1 md:col-span-1 lg:col-span-1 lg:row-span-2 h-auto lg:h-[52rem]">
             <Card className="h-full frosted-glass">
               <CardHeader>
-                <CardTitle className="text-lg">Description</CardTitle>
+                <CardTitle className="text-lg">Reddit Discussions</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-gray-600">Additional course information will be displayed here.</p>
