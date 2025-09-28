@@ -26,7 +26,7 @@ export function NeededByCard({ data }: NeededByCardProps) {
     return (
       <Card className="h-full frosted-glass">
         <CardHeader>
-          <CardTitle className="text-lg">Needed By</CardTitle>
+          <CardTitle className="text-lg pt-6">Needed By</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-center h-full">
@@ -42,10 +42,10 @@ export function NeededByCard({ data }: NeededByCardProps) {
   return (
     <Card className="h-full frosted-glass">
       <CardHeader>
-        <CardTitle className="text-lg pt-6">Needed By</CardTitle>
+        <CardTitle className="text-lg pt-3">Needed By</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6 h-full overflow-hidden">
-        <section className="h-full overflow-y-auto pr-2">
+        <section className="h-full scrollbar-hide overflow-y-scroll overscroll-y-contain pr-2">
         <section className="mb-4">
           <section className="mb-3">
           <span onClick={() => setPrereqExpanded((prev) => !prev)} className="text-sm text-primary cursor-pointer flex items-center">

@@ -10,7 +10,6 @@ import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRouter } from 'next/navigation'
 import { loginAction, signUpAction } from "@/actions/users";
-import { redirect } from "next/navigation";
 
 
 type Props = {
@@ -46,6 +45,7 @@ export function AuthForm({ type }: Props) {
             } else {
                 alert(`${title}: ${message}`);
                 // Redirect after successful login or signup
+                router.push('/');
                 
             }
         });
@@ -72,10 +72,10 @@ export function AuthForm({ type }: Props) {
                    {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : isLoginForm ? 'Login' : 'Sign Up'}
                 </Button>
                 <p className="text-sm text-center text-gray-600">
-                    {isLoginForm ? "Don't have an account? Sign up" : "Already have an account? Log in"}
+                    {isLoginForm ? "Don't have an account? Sign up" : "Already have an account? "}
                     <Link href={isLoginForm ? '/sign-up' : '/login'} className={cn("ml-1 font-medium text-primary hover:underline", isPending ? "pointer-events-none text-gray-400" : "")}>
                         {isLoginForm ? 'Sign up' : 'Log in'}
-                    </Link>.
+                    </Link>
                 </p>
             </CardFooter>b
         </form>

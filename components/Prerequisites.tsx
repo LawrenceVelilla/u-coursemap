@@ -28,11 +28,11 @@ export function PrerequisitesCard({ prerequisites }: PrerequisitesCardProps) {
   return (
     <Card className="h-full frosted-glass">
       <CardContent className="p-0 h-full overflow-hidden">
-        <div className="h-full overflow-y-auto">
+        <div className="h-full overflow-y-scroll overscroll-y-contain scrollbar-hide">
           <RequisiteTree 
             requirements={prerequisites}
             title="Prerequisites"
-            className="px-8 py-6 h-full"
+            className="px-8 py-3 h-full"
           />
         </div>
       </CardContent>

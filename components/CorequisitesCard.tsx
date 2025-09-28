@@ -26,11 +26,11 @@ export function CorequisitesCard({ corequisites }: CorequisitesCardProps) {
   return (
     <Card className="h-full frosted-glass">
       <CardContent className="p-0 h-full overflow-hidden">
-        <div className="h-full overflow-y-auto">
+        <div className="h-full overflow-y-scroll overscroll-y-contain scrollbar-hide">
           <RequisiteTree
             requirements={corequisites}
             title="Corequisites"
-            className="p-6"
+            className="px-8 py-3 h-full"
           />
         </div>
       </CardContent>
