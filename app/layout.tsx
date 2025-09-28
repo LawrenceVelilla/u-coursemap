@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
-import { Afacad, Caveat, Libre_Baskerville } from "next/font/google"
 import { ThemeProvider } from "@/providers/theme-provider"
 import { QueryProvider } from "@/providers/query-provider"
+import type { Viewport } from 'next';
 import Header from "@/components/Header"
-import './globals.css';
+import '@/styles/globals.css';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -16,25 +16,16 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
-const afacad = Afacad({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-afacad",
-});
-const libreBaskerville = Libre_Baskerville({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-libre-baskerville",
-});
-const caveat = Caveat({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-caveat",
-});
 
 export const metadata: Metadata = {
   title: 'UCourseMap',
-  description: 'Univeristy Course Planner for UofA stundets',
+  description: 'University Course Planner for UofA students',
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 type RootLayoutProps = {
@@ -46,6 +37,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <>
       <html lang="en" suppressHydrationWarning>
         <head />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
           <QueryProvider>
             <ThemeProvider

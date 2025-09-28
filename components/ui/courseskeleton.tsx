@@ -11,7 +11,7 @@ export function CourseLoadingSkeleton() {
           lg:grid-cols-4 lg:grid-rows-4 lg:grid-flow-col-dense">
         
         {/* Prerequisites - Left tall card */}
-        <Card className="frosted-glass col-span-1 lg:row-span-2 h-[35rem] md:h-auto lg:h-[35rem] animate-pulse">
+        <Card className="frosted-glass col-span-1 lg:row-span-2 h-140 md:h-auto lg:h-140 animate-pulse">
           <div className="p-6 space-y-4">
             <Skeleton className="h-6 w-32" />
             <Skeleton className="h-4 w-full" />
@@ -25,7 +25,7 @@ export function CourseLoadingSkeleton() {
         </Card>
         
         {/* Course Information - Top right large card */}
-        <Card className="frosted-glass col-span-1 md:col-span-2 lg:row-start-1 lg:col-start-3 lg:col-span-2 h-[17rem] md:h-auto lg:h-[17rem] animate-pulse">
+        <Card className="frosted-glass col-span-1 md:col-span-2 lg:row-start-1 lg:col-start-3 lg:col-span-2 h-68 md:h-auto lg:h-68 animate-pulse">
           <div className="p-6 space-y-4">
             <Skeleton className="h-8 w-48" />
             <Skeleton className="h-4 w-full" />
@@ -34,7 +34,7 @@ export function CourseLoadingSkeleton() {
         </Card>
         
         {/* Needed By - Right tall card */}
-        <Card className="frosted-glass col-span-1 md:row-start-1 lg:row-start-1 lg:row-span-2 h-[35rem] md:h-auto lg:h-[35rem] animate-pulse">
+        <Card className="frosted-glass col-span-1 md:row-start-1 lg:row-start-1 lg:row-span-2 h-140 md:h-auto lg:h-140 animate-pulse">
           <div className="p-6 space-y-4">
             <Skeleton className="h-6 w-28" />
             <Skeleton className="h-4 w-full" />
@@ -48,7 +48,7 @@ export function CourseLoadingSkeleton() {
         </Card>
         
         {/* Corequisites - Bottom left small card */}
-        <Card className="frosted-glass col-span-1 lg:col-start-3 lg:row-start-2 h-[17rem] md:h-auto lg:h-[17rem] animate-pulse">
+        <Card className="frosted-glass col-span-1 lg:col-start-3 lg:row-start-2 h-68 md:h-auto lg:h-68 animate-pulse">
           <div className="p-6 space-y-4">
             <Skeleton className="h-6 w-32" />
             <Skeleton className="h-4 w-full" />
@@ -57,7 +57,7 @@ export function CourseLoadingSkeleton() {
         </Card>
         
         {/* Other Info - Bottom right small card */}
-        <Card className="frosted-glass col-span-1 lg:col-start-4 lg:row-start-2 h-[17rem] md:h-auto lg:h-[17rem] animate-pulse">
+        <Card className="frosted-glass col-span-1 lg:col-start-4 lg:row-start-2 h-68 md:h-auto lg:h-68 animate-pulse">
           <div className="p-6 space-y-4">
             <Skeleton className="h-6 w-24" />
             <Skeleton className="h-4 w-full" />
