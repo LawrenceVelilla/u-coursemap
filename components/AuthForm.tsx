@@ -77,7 +77,7 @@ export function AuthForm({ type }: Props) {
                         {isLoginForm ? 'Sign up' : 'Log in'}
                     </Link>
                 </p>
-            </CardFooter>b
+            </CardFooter>
         </form>
     )
 }

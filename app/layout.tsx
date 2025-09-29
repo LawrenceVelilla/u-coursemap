@@ -5,6 +5,7 @@ import { QueryProvider } from "@/providers/query-provider"
 import type { Viewport } from 'next';
 import Header from "@/components/Header"
 import '@/styles/globals.css';
+import { Footer } from '@/components/ui/footer';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -48,6 +49,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             >
               <Header />
               {children}
+              <Footer />
             </ThemeProvider>
           </QueryProvider>
         </body>

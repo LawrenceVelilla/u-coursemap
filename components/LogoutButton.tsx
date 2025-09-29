@@ -32,7 +32,7 @@ function LogoutButton() {
       variant="default"
       onClick={handleLogout}
       disabled={loading}
-      className={cn({ shadow }, "border border-primary bg-none hover:bg-secondary hover:text-primary w-32")}
+      className={cn({ shadow }, "border border-primary bg-none hover:bg-secondary hover:text-primary hover:border-secondary w-32")}
     >
       {loading ? <Loader2 className="animate-spin h-5 w-5" /> : 'Logout'}
     </Button>
