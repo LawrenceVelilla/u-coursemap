@@ -3,8 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { CourseLoadingSkeleton } from "./ui/courseskeleton"
 import { CourseInfoCard } from "./CourseInfo"
-import { PrerequisitesCard } from "./Prerequisites"
-import { CorequisitesCard } from "./CorequisitesCard"
+import { RequirementsCard } from "./RequirementsCard"
 import { NeededByCard } from "./NeededBy"
 import { useQueries } from "@tanstack/react-query"
 
@@ -135,8 +134,9 @@ export function CourseDisplay({ courseCode }: CourseDisplayProps) {
 
           {/* Prerequisites - Bottom right row */}
           <div className="col-span-1 md:col-span-1 lg:col-span-1 lg:row-span-1 lg:h-100 md:h-75">
-            <PrerequisitesCard
-              prerequisites={courseDetails.data.requirements?.prerequisites}
+            <RequirementsCard
+              type="prerequisites"
+              requirements={courseDetails.data.requirements?.prerequisites}
             />
           </div>
 
@@ -147,7 +147,10 @@ export function CourseDisplay({ courseCode }: CourseDisplayProps) {
 
           {/* Corequisites - Bottom right row */}
           <div className="col-span-1 md:col-span-1 lg:col-span-1 lg:row-span-1 lg:h-100 md:h-75">
-            <CorequisitesCard corequisites={courseDetails.data.requirements?.corequisites} />
+            <RequirementsCard
+              type="corequisites"
+              requirements={courseDetails.data.requirements?.corequisites}
+            />
           </div>
         </div>
       </div>

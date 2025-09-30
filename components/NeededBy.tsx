@@ -15,7 +15,7 @@ export function NeededByCard({ data }: NeededByCardProps) {
   const [coreqExpanded, setCoreqExpanded] = useState(true);
 
   const handleCourseClick = (courseCode: string) => {
-    router.push(`/?code=${courseCode}`);
+    router.push(`/search?code=${courseCode}`);
   };
 
   const [prerequisiteCourses, corequisiteCourses] = [data.prerequisites || [], data.corequisites || []];

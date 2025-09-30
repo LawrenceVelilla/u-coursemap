@@ -12,7 +12,6 @@ import { useRouter } from 'next/navigation'
 import { loginAction, signUpAction } from "@/actions/users";
 import { loginSchema, signUpSchema } from "@/lib/validations";
 import { z } from "zod";
-import { CircleAlert } from "lucide-react";
 
 
 type Props = {
@@ -100,7 +99,7 @@ export function AuthForm({ type }: Props) {
                     )}
                     disabled={isPending} />
                     {!isLoginForm && errors.password && <p className="text-sm text-red-600 mt-1"><AlertCircle className="h-4 w-4"/>{errors.password}</p>}
-                    {isLoginForm && errorMessage && <p className="text-sm text-red-600 flex items-center gap-1 mt-1"><CircleAlert className="h-4 w-4" />{errorMessage}</p>}
+                    {isLoginForm && errorMessage && <p className="text-sm text-red-600 flex items-center gap-1 mt-1"><AlertCircle className="h-4 w-4" />{errorMessage}</p>}
                 </div>
                 {!isLoginForm && (
                     <div className="mt-4 flex flex-col space-y-1.5">
