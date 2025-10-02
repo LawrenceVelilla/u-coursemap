@@ -22,6 +22,10 @@ export function NeededByCard({ data }: NeededByCardProps) {
   const [hasPrerequisites, hasCorequisites] = [prerequisiteCourses.length > 0, corequisiteCourses.length > 0];
   const hasBoth = hasPrerequisites && hasCorequisites;
 
+
+  // !hasPrerequisites && !hasCorequisites and not !hasBoth
+  // because hasBoth is true only if both are true, we still want to display
+  // the section if one of them is true
   if (!hasPrerequisites && !hasCorequisites) {
     return (
       <Card className="h-full frosted-glass">

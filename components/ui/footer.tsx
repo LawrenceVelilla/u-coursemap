@@ -12,7 +12,7 @@ export function Footer() {
     return (
         <footer className="w-full border-t bg-[#3F4F44] dark:background backdrop-blur supports-backdrop-filter:bg-background/60">
             <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row items-center justify-between">
-                <p className="text-sm text-muted-foreground mb-4 md:mb-0">© {new Date().getFullYear()} UCourseMap. All rights reserved.</p>
+                <p className="text-sm text-muted-foreground mb-4 md:mb-0">{new Date().getFullYear()} UCourseMap. This is a personal project.</p>
                 <div className="flex space-x-6">
                     <a href={linkedInUrl} target="_blank" rel="noopener noreferrer" className={cn("text-muted-foreground hover:text-primary transition-colors duration-150")}>
                         <Image src="../../public/linkedin.svg" alt="LinkedIn" width={24} height={24} className="h-6 w-6" />

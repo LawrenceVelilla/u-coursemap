@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation'
 import { loginAction, signUpAction } from "@/actions/users";
 import { loginSchema, signUpSchema } from "@/lib/validations";
 import { z } from "zod";
+import { GoogleIcon } from "./GoogleIcon";
 
 
 type Props = {
@@ -25,6 +26,26 @@ export function AuthForm({ type }: Props) {
     const [isPending, startTransition] = useTransition();
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+    const handleGoogleSignIn = async () => {
+        startTransition(async () => {
+            try {
+                // TODO: Implement Google OAuth with Supabase
+                // const { error } = await supabase.auth.signInWithOAuth({
+                //   provider: 'google',
+                //   options: {
+                //     redirectTo: `${window.location.origin}/auth/callback`
+                //   }
+                // });
+
+                // For now, show a placeholder
+                alert('Google OAuth setup in progress...');
+
+            } catch (error) {
+                setErrorMessage('Failed to sign in with Google. Please try again.');
+            }
+        });
+    };
 
     const handleSubmit = (formData: FormData) => {
         startTransition(async () => {
@@ -81,7 +102,7 @@ export function AuthForm({ type }: Props) {
 
     return (
         <form action={handleSubmit} className="flex flex-col gap-4 w-full max-w-sm mx-auto">
-            <CardContent className="p-6">
+            <CardContent className="p-6 space-y-4">                
                 <div className="flex flex-col space-y-1.5">
                     <Label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</Label>
                     <Input type="email" id="email" name="email" placeholder="Enter your email" required
@@ -124,12 +145,36 @@ export function AuthForm({ type }: Props) {
                             </p>
                         )}
                     </div>
-            )}      
+                )} 
+                
             </CardContent>
             <CardFooter className="p-6 flex flex-col gap-6">
                 <Button className="w-full">
                    {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : isLoginForm ? 'Login' : 'Sign Up'}
+                </Button>                
+                {/* Google Sign In Button */}
+                <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleGoogleSignIn}
+                    className="w-full flex items-center justify-center gap-3 h-10"
+                    disabled={isPending}
+                >
+                    <GoogleIcon className="h-5 w-5" />
+                    {isLoginForm ? 'Sign in with Google' : 'Sign up with Google'}
                 </Button>
+
+                {/* Divider */}
+                <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                        <span className="w-full border-t border-gray-300" />
+                    </div>
+                    
+                    <div className="relative flex justify-center text-xs uppercase">
+                        <span className="bg-background px-2 text-muted-foreground">
+                        </span>
+                    </div>
+                </div>
                 <p className="text-sm text-center text-gray-600">
                     {isLoginForm ? "Don't have an account?" : "Already have an account? "}
                     <Link href={isLoginForm ? '/sign-up' : '/login'} className={cn("ml-1 font-medium text-primary hover:underline", isPending ? "pointer-events-none text-gray-400" : "")}>

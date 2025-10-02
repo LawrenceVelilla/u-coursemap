@@ -2,6 +2,8 @@
 @import "tailwindcss";
 
 
+
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -85,7 +87,9 @@
 
 .dark {
   --glass-bg: rgba(45, 45, 45, 0.3);
-  --background: #000000;
+  --background: #232526;  /* fallback for old browsers */
+  --background: -webkit-linear-gradient(to right, #414345, #232526);  /* Chrome 10-25, Safari 5.1-6 */
+  --background: linear-gradient(to right, #414345, #232526); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.21 0.006 285.885);
   --card-foreground: oklch(0.9814 0.0342 99.83);
@@ -128,6 +132,7 @@
     scrollbar-width: none;
   
   }
+
 
   body {
     background-color: var(--color-background);

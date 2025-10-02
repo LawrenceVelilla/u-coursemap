@@ -3,7 +3,6 @@
 import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Search from "@/components/Search";
-import { CourseDisplay } from "@/components/CourseDisplay";
 import { CourseLoadingSkeleton } from "@/components/ui/courseskeleton";
 
 function HomeContent() {
@@ -13,12 +12,28 @@ function HomeContent() {
   const courseCode = (searchParams.get("code") || "").replace('-', ' '); 
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center p-6 md:p-24">
-      <div className="flex flex-col items-center space-y-12 w-full">
-        <h1 className="text-4xl font-bold">UCourseMap</h1>
+    <div className="flex min-h-screen flex-col  p-6 md:p-24">
+      <section className="flex flex-col space-y-12 w-full">
+        <h1 className="text-5xl font-bold mb-2 ">UCourseMap</h1>
+        <h2 className="text-md mb-6 text-gray-500">Visualize course prerequisites and plan your academic journey with ease.</h2>
+       </section>
+
+      <section className="flex flex-col space-y-12 w-full mt-6 mb-6">
+        <h1>Begin you by searching for a class you're interested in</h1>
         <Search defaultValue={courseCode} />
-        <CourseDisplay courseCode={courseCode} />
-      </div>
+      </section>
+
+      <section className="">
+        <h1>Explore course requirements, information and more!</h1>
+        {/* Have videos here or maybe cards with course information as stand in.
+        Maybe a carousel? Maybe a video walkthrough? Maybe an animation of a course being searched
+        using the typing animation of a word being typed out?
+        */}
+      </section>
+
+      <section className="mt-12"> 
+        {/* Have a google form where people can submit feedback or a missing course/department  */}
+      </section>
     </div>
   );
 }
