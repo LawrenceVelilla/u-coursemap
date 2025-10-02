@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
-import { SaveCourse }  from "@/components/SaveCourse";
 
 interface SearchProps {
   onCourseFound?: (courseCode: string) => void
@@ -37,8 +36,8 @@ export default function Search({ onCourseFound, defaultValue = "" }: SearchProps
   };
 
   return (
-    <div className="flex flex-col items-center space-y-4">
-      <div className="flex w-full max-w-lg items-center space-x-2">
+    <div className="flex flex-col space-y-4">
+      <div className="flex w-full max-w-lg space-x-2">
         <Input
           type="text"
           value={searchInput}
@@ -51,7 +50,6 @@ export default function Search({ onCourseFound, defaultValue = "" }: SearchProps
         <Button onClick={handleSearch} className="min-w-[80px] text-secondary hover:bg-secondary hover:text-primary transition-colors duration-150">
           Search
         </Button>
-        <SaveCourse courseCode={searchInput.trim().toUpperCase()} />
       </div>
     </div>
   );

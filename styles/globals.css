@@ -1,5 +1,7 @@
-@import 'tailwindcss';
 @import url("https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Caveat:wght@400..700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap");
+@import "tailwindcss";
+
+
 
 
 @custom-variant dark (&:is(.dark *));
@@ -47,7 +49,7 @@
 :root {
   --font-afacad: "Afacad", sans-serif;
   --font-caveat: "Libre Baskerville", serif;
-  --font-libre: "Caveat", cursive;
+  --font-libre: "Caveat", cursive; 
   
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -85,7 +87,9 @@
 
 .dark {
   --glass-bg: rgba(45, 45, 45, 0.3);
-  --background: #000000;
+  --background: #232526;  /* fallback for old browsers */
+  --background: -webkit-linear-gradient(to right, #414345, #232526);  /* Chrome 10-25, Safari 5.1-6 */
+  --background: linear-gradient(to right, #414345, #232526); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.21 0.006 285.885);
   --card-foreground: oklch(0.9814 0.0342 99.83);
@@ -120,14 +124,39 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    border-color: var(--color-border);
+    outline-color: color-mix(in srgb, var(--color-ring) 50%, transparent);
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  
   }
+
+
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
   }
+  
 }
 
+  
+
 @layer utilities {
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
+
   .frosted-glass {
       background: rgba(53, 47, 47, 0.2);
       border-radius: 16px;

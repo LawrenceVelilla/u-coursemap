@@ -3,8 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { CourseLoadingSkeleton } from "./ui/courseskeleton"
 import { CourseInfoCard } from "./CourseInfo"
-import { PrerequisitesCard } from "./Prerequisites"
-import { CorequisitesCard } from "./CorequisitesCard"
+import { RequirementsCard } from "./RequirementsCard"
 import { NeededByCard } from "./NeededBy"
 import { useQueries } from "@tanstack/react-query"
 
@@ -109,11 +108,11 @@ export function CourseDisplay({ courseCode }: CourseDisplayProps) {
           md:grid-cols-3
           lg:grid-cols-4 lg:grid-rows-2"
         >
-          {/* Description - Left column spanning both rows */}
-          <div className="col-span-1 md:col-span-1 lg:col-span-1 lg:row-span-2 h-auto lg:h-[52rem]">
+          {/* Reddit Discussions */}
+          <div className="col-span-1 md:row-start-3 md:col-span-3 lg:col-span-1 lg:row-span-2 h-auto lg:h-208">
             <Card className="h-full frosted-glass">
               <CardHeader>
-                <CardTitle className="text-lg">Description</CardTitle>
+                <CardTitle className="text-lg">Reddit Discussions</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-gray-600">Additional course information will be displayed here.</p>
@@ -122,7 +121,7 @@ export function CourseDisplay({ courseCode }: CourseDisplayProps) {
           </div>
 
           {/* Course Information - Top right */}
-          <div className="col-span-1 md:col-span-2 lg:col-span-3 lg:row-span-1 h-auto lg:h-[25rem]">
+          <div className="col-span-1 md:col-span-3 lg:col-span-3 lg:row-span-1 h-auto lg:h-100">
             <CourseInfoCard
               courseCode={courseDetails.data.courseCode}
               title={courseDetails.data.title}
@@ -134,20 +133,24 @@ export function CourseDisplay({ courseCode }: CourseDisplayProps) {
           </div>
 
           {/* Prerequisites - Bottom right row */}
-          <div className="col-span-1 md:col-span-1 lg:col-span-1 lg:row-span-1 h-auto lg:h-[25rem]">
-            <PrerequisitesCard
-              prerequisites={courseDetails.data.requirements?.prerequisites}
+          <div className="col-span-1 md:col-span-1 lg:col-span-1 lg:row-span-1 lg:h-100 md:h-75">
+            <RequirementsCard
+              type="prerequisites"
+              requirements={courseDetails.data.requirements?.prerequisites}
             />
           </div>
 
           {/* Needed By - Bottom right row */}
-          <div className="col-span-1 md:col-span-1 lg:col-span-1 lg:row-span-1 h-auto lg:h-[25rem]">
+          <div className="col-span-1 md:col-span-1 lg:col-span-1 lg:row-span-1 lg:h-100 md:h-75">
             <NeededByCard data={coursesNeeding.data} />
           </div>
-    
+
           {/* Corequisites - Bottom right row */}
-          <div className="col-span-1 md:col-span-1 lg:col-span-1 lg:row-span-1 h-auto lg:h-[25rem]">
-            <CorequisitesCard corequisites={courseDetails.data.requirements?.corequisites} />
+          <div className="col-span-1 md:col-span-1 lg:col-span-1 lg:row-span-1 lg:h-100 md:h-75">
+            <RequirementsCard
+              type="corequisites"
+              requirements={courseDetails.data.requirements?.corequisites}
+            />
           </div>
         </div>
       </div>
