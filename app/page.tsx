@@ -19,7 +19,7 @@ function HomeContent() {
        </section>
 
       <section className="flex flex-col space-y-12 w-full mt-6 mb-6">
-        <h1>Begin you by searching for a class you're interested in</h1>
+        <h1>Begin you by searching for a class you&apos;re interested in</h1>
         <Search defaultValue={courseCode} />
       </section>
 
