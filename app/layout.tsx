@@ -39,7 +39,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <html lang="en" suppressHydrationWarning>
         <head />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}>
           <QueryProvider>
             <ThemeProvider
               attribute="class"
@@ -48,7 +48,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
               disableTransitionOnChange
             >
               <Header />
-              {children}
+              <main className="flex-1 pt-6 md:pt-8">
+                {children}
+              </main>
               <Footer />
             </ThemeProvider>
           </QueryProvider>
