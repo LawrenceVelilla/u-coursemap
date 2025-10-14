@@ -22,6 +22,10 @@ const featuresNav = [
   {
     name: 'GPA Calculator',
     href: '/gpa-calculator',
+  },
+  {
+    name: 'Planner',
+    href: '/planner',
   }
 ];
 

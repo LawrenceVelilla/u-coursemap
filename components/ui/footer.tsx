@@ -1,6 +1,5 @@
-import { Mail } from "lucide-react";
+import { Github, Linkedin } from "lucide-react";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 
 
 
@@ -15,11 +14,11 @@ export function Footer() {
                 <p className="text-sm text-muted-foreground mb-4 md:mb-0">{new Date().getFullYear()} UCourseMap. This is a personal project.</p>
                 <div className="flex space-x-6">
                     <a href={linkedInUrl} target="_blank" rel="noopener noreferrer" className={cn("text-muted-foreground hover:text-primary transition-colors duration-150")}>
-                        <Image src="../../public/linkedin.svg" alt="LinkedIn" width={24} height={24} className="h-6 w-6" />
+                        <Linkedin className="h-6 w-6" />
                         <span className="sr-only">LinkedIn</span>
                     </a>
                     <a href={githubUrl} target="_blank" rel="noopener noreferrer" className={cn("text-muted-foreground hover:text-primary transition-colors duration-150")}>
-                        <Image src="../../public/github.svg" alt="GitHub" width={24} height={24} className="h-6 w-6" />
+                        <Github className="h-6 w-6" />
                         <span className="sr-only">GitHub</span>
                     </a>
                 </div>

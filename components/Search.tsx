@@ -37,7 +37,7 @@ export default function Search({ onCourseFound, defaultValue = "" }: SearchProps
 
   return (
     <div className="flex flex-col space-y-4">
-      <div className="flex w-full max-w-lg space-x-2">
+      <div className="flex w-full max-w-lg items-center space-x-2">
         <Input
           type="text"
           value={searchInput}
@@ -47,7 +47,7 @@ export default function Search({ onCourseFound, defaultValue = "" }: SearchProps
           className="flex-1"
           aria-label="Search for a course"
         />
-        <Button onClick={handleSearch} className="min-w-[80px] text-secondary hover:bg-secondary hover:text-primary transition-colors duration-150">
+        <Button onClick={handleSearch} className="min-w-[80px] text-primary bg-secondary hover:bg-secondary hover:text-primary transition-colors duration-150">
           Search
         </Button>
       </div>
