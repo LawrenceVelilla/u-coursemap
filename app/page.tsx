@@ -36,7 +36,7 @@ function HomeContent() {
                 
               </div>
               <p className="text-sm text-muted-foreground mt-3">
-                Try searching for "CMPUT 201", "MATH 214", or any course code
+                Try searching for &quot;CMPUT 201&quot;, &quot;MATH 214&quot;, or any course code
               </p>
             </div>
           </div>
@@ -148,7 +148,7 @@ function HomeContent() {
               </div>
               <h3 className="text-xl font-semibold mb-4">Search for Courses</h3>
               <p className="text-muted-foreground leading-relaxed">
-                Enter any course code or browse by department to find the classes you're interested in taking.
+                Enter any course code or browse by department to find the classes you&apos;re interested in taking.
               </p>
             </div>
 
