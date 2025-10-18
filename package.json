@@ -7,7 +7,7 @@
     "dev": "next dev --turbopack",
     "build": "npx prisma generate && next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "migrate": "npx prisma generate && env $(cat .env | xargs) npx prisma migrate dev"
@@ -16,6 +16,7 @@
     "schema": "db/schema.prisma"
   },
   "dependencies": {
+    "@atlaskit/pragmatic-drag-and-drop": "^1.7.7",
     "@prisma/client": "^6.16.2",
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-slot": "^1.2.3",
