@@ -1,10 +1,10 @@
-export interface RequirementsData {
+export type RequirementsData = {
   prerequisites?: RequirementCondition;
   corequisites?: RequirementCondition;
   notes?: string;
 }
 
-export interface RequirementCondition {
+export type RequirementCondition = {
   operator: 'AND' | 'OR' | 'STANDALONE' | 'WILDCARD' | string;
   conditions?: RequirementCondition[];
   courses?: string[];
@@ -12,7 +12,7 @@ export interface RequirementCondition {
   description?: string;
 }
 
-export interface RawCourse {
+export type RawCourse = {
   department: string;
   courseCode: string;
   title: string;
@@ -25,7 +25,7 @@ export interface RawCourse {
   url: string;
 }
 
-export interface FinalCourseDetails {
+export type FinalCourseDetails = {
   department: string;
   description: string;
   courseCode: string;
@@ -40,5 +40,5 @@ export interface FinalCourseDetails {
   flattenedPrerequisites: string[];
   flattenedCorequisites: string[];
   url: string | null;
-  updatedAt: string; 
+  updatedAt: string;
 }
