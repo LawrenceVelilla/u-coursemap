@@ -28,7 +28,7 @@ import {
   SortingStrategy,
   horizontalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import {coordinateGetter as multipleContainersCoordinateGetter} from './multipleContainersKeyboardCoordinates';
+import {coordinateGetter as multipleContainersCoordinateGetter} from './containerskeyboardcoordinates';
 
 import {Item, Container} from '../../components/dnd-pieces';
 import {DroppableContainer} from '../../components/dnd-pieces/DroppableContainer';
