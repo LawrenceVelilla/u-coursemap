@@ -25,7 +25,7 @@ const featuresNav = [
   },
   {
     name: 'Planner',
-    href: '/planner',
+    href: '/ExamplePage',
   }
 ];
 
