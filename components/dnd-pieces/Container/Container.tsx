@@ -40,25 +40,18 @@ export const Container = forwardRef<HTMLDivElement, Props>(
     }: Props,
     ref
   ) {
-    const Component = onClick ? "button" : "div";
+    const commonClassName = classNames(
+      "flex flex-col gap-2 p-4 rounded-lg",
+      !unstyled && "bg-gray-50 border border-gray-200",
+      hover && "ring-2 ring-blue-400",
+      placeholder && "border-2 border-dashed border-gray-300 bg-transparent items-center justify-center min-h-[200px]",
+      scrollable && "overflow-y-auto max-h-[600px]",
+      shadow && "shadow-lg",
+      onClick && "cursor-pointer hover:bg-gray-100"
+    );
 
-    return (
-      <Component
-        {...props}
-        ref={ref}
-        style={style}
-        className={classNames(
-          "flex flex-col gap-2 p-4 rounded-lg",
-          !unstyled && "bg-gray-50 border border-gray-200",
-          hover && "ring-2 ring-blue-400",
-          placeholder && "border-2 border-dashed border-gray-300 bg-transparent items-center justify-center min-h-[200px]",
-          scrollable && "overflow-y-auto max-h-[600px]",
-          shadow && "shadow-lg",
-          onClick && "cursor-pointer hover:bg-gray-100"
-        )}
-        onClick={onClick}
-        tabIndex={onClick ? 0 : undefined}
-      >
+    const content = (
+      <>
         {label ? (
           <div className="flex items-center justify-between mb-2 pb-2 border-b border-gray-200">
             <span className="font-semibold text-gray-700">{label}</span>
@@ -69,7 +62,33 @@ export const Container = forwardRef<HTMLDivElement, Props>(
           </div>
         ) : null}
         {placeholder ? children : <ul className="flex flex-col gap-2">{children}</ul>}
-      </Component>
+      </>
+    );
+
+    if (onClick) {
+      return (
+        <button
+          {...props}
+          type="button"
+          style={style}
+          className={commonClassName}
+          onClick={onClick}
+          tabIndex={0}
+        >
+          {content}
+        </button>
+      );
+    }
+
+    return (
+      <div
+        {...props}
+        ref={ref}
+        style={style}
+        className={commonClassName}
+      >
+        {content}
+      </div>
     );
   }
 );
