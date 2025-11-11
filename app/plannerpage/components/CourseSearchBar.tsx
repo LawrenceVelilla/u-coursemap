@@ -53,9 +53,10 @@ export function CourseSearchBar({
           onKeyPress={handleKeyPress}
           placeholder="Enter course code (e.g., CMPUT 301, MATH 214)"
           className="
-            flex-1 px-4 py-3 border-2 border-gray-300 rounded-lg
-            focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200
-            transition-all
+            flex-1 px-4 py-3 border-[3px] rounded-lg
+           text-gray-900 dark:text-gray-100
+            focus:outline-none focus:border-secondary dark:focus:border-secondary frosted-glass
+            transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500
           "
         />
         <button

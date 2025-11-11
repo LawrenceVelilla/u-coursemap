@@ -38,14 +38,14 @@ export function CourseCard({
       {...listeners}
       className={`
         relative flex items-center justify-between
-        px-4 py-3 bg-white border-2 border-gray-300 rounded-lg
-        shadow-sm hover:shadow-md hover:border-blue-400
+        px-4 py-3 bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 rounded-lg
+        shadow-sm hover:shadow-md hover:border-secondary dark:hover:border-secondary hover:bg-secondary/10 dark:hover:bg-secondary/20
         transition-all cursor-grab active:cursor-grabbing
-        ${isSortableDragging ? "z-50 shadow-xl scale-105" : ""}
+        ${isSortableDragging ? "z-50 shadow-xl scale-105 border-secondary dark:border-secondary" : ""}
       `}
     >
       {/* Course Code */}
-      <span className="font-semibold text-gray-800 select-none">
+      <span className="font-semibold text-gray-800 dark:text-gray-100 select-none">
         {courseCode}
       </span>
 
@@ -59,8 +59,8 @@ export function CourseCard({
           }}
           className="
             ml-2 w-6 h-6 flex items-center justify-center
-            rounded-full bg-red-100 text-red-600
-            hover:bg-red-200 hover:text-red-700
+            rounded-full bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300
+            hover:bg-red-200 dark:hover:bg-red-800 hover:text-red-700 dark:hover:text-red-200
             transition-colors cursor-pointer
           "
           aria-label={`Remove ${courseCode}`}

@@ -56,7 +56,7 @@ export function ScheduleBoard({ schedule, onRemoveCourse }: ScheduleBoardProps) 
   return (
     <div className="w-full">
       <div className="mb-4">
-        <h2 className="text-xl font-bold text-gray-800">
+        <h2 className="text-xl font-bold text-primary">
           4-Year Schedule
         </h2>
         <p className="text-sm text-gray-600">

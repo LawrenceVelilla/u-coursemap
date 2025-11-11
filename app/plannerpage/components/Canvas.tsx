@@ -25,7 +25,7 @@ export function Canvas({ courses, onRemoveCourse }: CanvasProps) {
         <h2 className="text-xl font-bold dark:text-primary">
           Canvas
         </h2>
-        <p className="text-sm text-gray-600 dark:text-primary font-light">
+        <p className="text-sm dark:text-primary font-light">
           Added Courses will be here
         </p>
       </div>
@@ -33,13 +33,13 @@ export function Canvas({ courses, onRemoveCourse }: CanvasProps) {
       <div
         ref={setNodeRef}
         className={`
-          w-full min-h-[150px] p-4 rounded-lg border-2
+          w-full min-h-[150px] p-4 rounded-lg border-2 frosted-glass
           transition-all
-          ${isOver ? "border-blue-500 bg-blue-50 ring-2 ring-blue-300" : "border-gray-300 frosted-glass dark:border-gray-600"}
+          ${isOver ? "border-secondary dark:border-secondary bg-secondary/5 dark:bg-secondary/10 shadow-lg" : ""}
         `}
       >
         {isEmpty ? (
-          <div className="flex items-center justify-center h-[120px] text-gray-400">
+          <div className="flex items-center justify-center h-[120px] text-gray-400 dark:text-gray-500">
             <div className="text-center">
               <p className="text-lg font-medium">No courses yet</p>
               <p className="text-sm">Search and add courses to get started</p>
