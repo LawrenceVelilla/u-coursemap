@@ -73,7 +73,7 @@ export function ScheduleBoard({ schedule, onRemoveCourse }: ScheduleBoardProps) 
             </h3>
 
             {/* Semester Columns */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="flex gap-4">
               {semesters.map(({ id, label }) => (
                 <SemesterColumn
                   key={id}

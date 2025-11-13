@@ -12,7 +12,7 @@ import {
   DragStartEvent,
   DragEndEvent,
 } from "@dnd-kit/core";
-import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
+import { sortableKeyboardCoordinates, arrayMove } from "@dnd-kit/sortable";
 
 import { CourseSearchBar } from "./components/CourseSearchBar";
 import { Canvas } from "./components/Canvas";
@@ -34,9 +34,13 @@ export default function CoursePlannerPage() {
   });
   const [activeCourse, setActiveCourse] = useState<string | null>(null);
 
-  // DnD Sensors
+  // DnD Sensors with activation constraints for better Mac support
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 2, // Require 2px movement before drag starts
+      },
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
@@ -93,10 +97,35 @@ export default function CoursePlannerPage() {
 
     const courseCode = active.id as string;
     const sourceContainer = findContainer(courseCode);
-    const targetContainer = over.id as string;
+    const overCourseCode = over.id as string;
 
-    // If dropping in the same container, do nothing
+    // over.id might be a container ID or a courseCode (another sortable item)
+    // If it's a courseCode, find which container it belongs to
+    let targetContainer = overCourseCode;
+    const potentialContainer = findContainer(overCourseCode);
+    if (potentialContainer) {
+      // over.id is a courseCode, use its container
+      targetContainer = potentialContainer;
+    }
+
+    // Handle reordering within the same container
     if (sourceContainer === targetContainer) {
+      if (sourceContainer === "canvas") {
+        setCanvas((prev) => {
+          const oldIndex = prev.indexOf(courseCode);
+          const newIndex = prev.indexOf(overCourseCode);
+          return arrayMove(prev, oldIndex, newIndex);
+        });
+      } else if (sourceContainer && sourceContainer in schedule) {
+        setSchedule((prev) => {
+          const oldIndex = prev[sourceContainer as SemesterId].indexOf(courseCode);
+          const newIndex = prev[sourceContainer as SemesterId].indexOf(overCourseCode);
+          return {
+            ...prev,
+            [sourceContainer]: arrayMove(prev[sourceContainer as SemesterId], oldIndex, newIndex),
+          };
+        });
+      }
       setActiveCourse(null);
       return;
     }

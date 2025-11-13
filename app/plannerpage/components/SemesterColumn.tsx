@@ -33,8 +33,8 @@ export function SemesterColumn({
     <div
       ref={setNodeRef}
       className={`
-        flex flex-col w-64 min-h-[300px] p-4 rounded-lg border-2
-        transition-all frosted-glass
+        flex flex-col flex-1 min-h-[300px] p-4 rounded-lg border-2
+        transition-all dark:frosted-glass bg-none
         ${isOver && !isFull ? "border-secondary dark:border-secondary bg-secondary/5 dark:bg-secondary/10 shadow-lg" : ""}
         ${isFull ? "border-red-400 dark:border-red-500 bg-red-50/30 dark:bg-red-900/20 shadow-md" : ""}
       `}
