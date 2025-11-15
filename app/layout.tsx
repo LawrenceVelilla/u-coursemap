@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Sora, Inter } from 'next/font/google';
 import { ThemeProvider } from "@/providers/theme-provider"
 import { QueryProvider } from "@/providers/query-provider"
 import type { Viewport } from 'next';
@@ -7,15 +7,15 @@ import Header from "@/components/Header"
 import '@/styles/globals.css';
 import { Footer } from '@/components/ui/footer';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const sora = Sora({
   subsets: ['latin'],
-});
+  variable: '--font-sora',
+})
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const inter = Inter({
   subsets: ['latin'],
-});
+  variable: '--font-inter',
+})
 
 
 export const metadata: Metadata = {
@@ -36,9 +36,9 @@ type RootLayoutProps = {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <>
-      <html lang="en" suppressHydrationWarning>
+      <html lang="en" suppressHydrationWarning className={`${sora.variable} ${inter.variable}`}>
         <head />
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}>
+        <body className={`antialiased flex flex-col min-h-screen`}>
           <QueryProvider>
             <ThemeProvider
               attribute="class"
