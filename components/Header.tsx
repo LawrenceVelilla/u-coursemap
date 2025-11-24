@@ -74,12 +74,12 @@ export default async function Header() {
               <LogoutButton />
             ) : (
               <>
-                <Button asChild variant="outline" className="sm:inline-flex border border-primary hover:bg-primary hover:text-secondary w-fit">
+                <Button asChild variant="outline" className="sm:inline-flex border-primary hover:bg-primary hover:text-primary-foreground w-fit">
                   <Link href="/login">
                     Login
                   </Link>
                 </Button>
-                <Button asChild variant="default" className="hidden sm:block border border-primary hover:bg-primary hover:text-secondary w-fit justify-center align-center">
+                <Button asChild variant="default" className="hidden sm:block w-fit justify-center align-center">
                   <Link href="/sign-up">
                     Sign Up
                   </Link>

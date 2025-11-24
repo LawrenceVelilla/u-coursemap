@@ -62,8 +62,7 @@ export function CourseSearchBar({
         <button
           onClick={handleAdd}
           className="
-            px-6 py-3 bg-secondary text-white font-medium rounded-lg
-            hover:bg-primary hover:text-secondary transition-colors
+            px-6 py-3 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-lg transition-colors
           "
         >
           Add

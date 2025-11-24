@@ -41,7 +41,7 @@ export function SemesterColumn({
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-3 pb-2 border-b border-gray-300 dark:border-gray-600">
-        <h3 className="font-bold text-gray-800 dark:text-gray-100">{label}</h3>
+        <h3 className="font-bold text-gray-900 dark:text-gray-100">{label}</h3>
         <span
           className={`
             text-sm font-medium px-2 py-1 rounded

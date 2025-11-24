@@ -59,7 +59,7 @@ export function ScheduleBoard({ schedule, onRemoveCourse }: ScheduleBoardProps) 
         <h2 className="text-xl font-bold text-primary">
           4-Year Schedule
         </h2>
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-gray-600 dark:text-gray-400">
           Drag courses from canvas to plan your semesters (max 5 per semester)
         </p>
       </div>
@@ -68,7 +68,7 @@ export function ScheduleBoard({ schedule, onRemoveCourse }: ScheduleBoardProps) 
         {SEMESTER_CONFIG.map(({ year, semesters }) => (
           <div key={year} className="space-y-4 frosted-glass p-4 rounded-lg border border-gray-200">
             {/* Year Header */}
-            <h3 className="text-lg font-bold dark:text-primary border-b-2 border-gray-300 pb-2">
+            <h3 className="text-lg font-bold text-gray-800 dark:text-primary border-b-2 border-gray-300 pb-2">
               Year {year}
             </h3>
 
