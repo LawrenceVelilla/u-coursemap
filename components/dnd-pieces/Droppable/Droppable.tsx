@@ -1,9 +1,5 @@
 import React from "react";
 import { useDroppable, UniqueIdentifier } from "@dnd-kit/core";
-import classNames from "classnames";
-
-import { droppable } from "../Droppable/droppable-svg";
-import styles from "./Droppable.module.scss";
 
 interface Props {
   children: React.ReactNode;
@@ -11,7 +7,7 @@ interface Props {
   id: UniqueIdentifier;
 }
 
-export function Droppable({ children, id, dragging }: Props) {
+export function Droppable({ children, id }: Props) {
   const { isOver, setNodeRef } = useDroppable({
     id
   });
@@ -19,14 +15,10 @@ export function Droppable({ children, id, dragging }: Props) {
   return (
     <div
       ref={setNodeRef}
-      className={classNames(
-        styles.Droppable,
-        isOver && styles.over,
-      )}
+      className={isOver ? "bg-blue-50" : ""}
       aria-label="Droppable region"
     >
       {children}
-      {droppable}
     </div>
   );
 }
